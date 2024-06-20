@@ -1,0 +1,37 @@
+# Project: 俄罗斯方块
+# Makefile created by Red Panda C++ 3.0.2815
+
+CXX      = "g++.exe"
+CC       = "gcc.exe"
+WINDRES  = "windres.exe"
+RM       = del /q /f
+CD       = cd /d
+LIBS     = "-s" "-leasyx" "C:/Program Files/RedPanda-Cpp/mingw64/x86_64-w64-mingw32/lib/libwinmm.a" "-static"
+INCS     = 
+CXXINCS  = 
+CXXFLAGS = $(CXXINCS) "-O2" "-pipe"
+CFLAGS   = $(INCS) "-O2" "-pipe"
+WINDRESFLAGS = 
+RES      = 俄罗斯方块_private.res
+OBJ      = main.o $(RES)
+BIN      = 俄罗斯方块.exe
+LINKOBJ  = "main.o" "俄罗斯方块_private.res"
+CLEANOBJ = "main.o" "俄罗斯方块_private.res" "俄罗斯方块.exe"
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) >NUL 2>&1
+
+俄罗斯方块.exe: $(OBJ)
+
+	$(CXX) $(LINKOBJ) -o "俄罗斯方块.exe" $(LIBS)
+
+main.o: main.cpp
+	$(CXX) -c "main.cpp" -o "main.o" $(CXXFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+俄罗斯方块_private.res: 俄罗斯方块_private.rc 
+	$(WINDRES) -i "俄罗斯方块_private.rc" --input-format=rc -o "俄罗斯方块_private.res" -O coff $(WINDRESFLAGS) 
+
