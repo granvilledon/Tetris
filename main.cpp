@@ -11,14 +11,14 @@
 
 using namespace std;
 
-// æ–¹å—å®½åº¦
+// ·½¿é¿í¶È
 const int SMALL_SIZE = 20;
 const int MEDIUM_SIZE = 30;
 const int LARGE_SIZE = 40;
 int gridSize = MEDIUM_SIZE;
 int halfgridSize = gridSize / 2;
 
-// æ–¹å—å½¢çŠ¶
+// ·½¿éĞÎ×´
 const int SHAPE_O = 0;
 const int SHAPE_I = 1;
 const int SHAPE_L = 2;
@@ -27,11 +27,11 @@ const int SHAPE_S = 4;
 const int SHAPE_Z = 5;
 const int SHAPE_T = 6;
 
-// è‡ªå®šä¹‰é¢œè‰²
+// ×Ô¶¨ÒåÑÕÉ«
 const int COLOR_BOARD = RGB(209, 150, 34);
 const int COLOR_BLOCK = RGB(255, 219, 149);
 
-// é”®ç›˜æŒ‰é”®
+// ¼üÅÌ°´¼ü
 const int KEY_LEFT = 75;
 const int KEY_RIGHT = 77;
 const int KEY_UP = 72;
@@ -42,7 +42,7 @@ const int KEY_A = 97;
 const int KEY_D = 100;
 const int KEY_ESC = 27;
 
-// é¡µé¢å¸¸é‡
+// Ò³Ãæ³£Á¿
 const int PAGE_EXIT = 0;
 const int PAGE_MAIN_MENU = 1;
 const int PAGE_CREATGAME_MENU = 2;
@@ -58,2815 +58,2839 @@ const int PAGE_MUSIC_MENU = 11;
 const int PAGE_SIZE_MENU = 12;
 const int PAGE_KEY_MENU = 13;
 
-// æ¸¸æˆæ¨¡å¼ï¼ˆæ–¹å—ä¸‹è½é€Ÿåº¦ï¼‰
+// ÓÎÏ·Ä£Ê½£¨·½¿éÏÂÂäËÙ¶È£©
 const int MODE_EASY = 500;
 const int MODE_NORMAL = 300;
 const int MODE_HARD = 150;
 
-// å‰ç¥¥ç‰©çš„ä½ç½®(1è¡¨ç¤ºå³è¾¹ï¼Œ-1è¡¨ç¤ºå·¦è¾¹)
-const int  MASCOT_RIGHT = 1;
-const int  MASCOT_LEFT = -1;
+// ¼ªÏéÎïµÄÎ»ÖÃ(1±íÊ¾ÓÒ±ß£¬-1±íÊ¾×ó±ß)
+const int MASCOT_RIGHT = 1;
+const int MASCOT_LEFT = -1;
 
 class Block {
 protected:
-	int x;
-	int y;
-	int shape;
-	int color;
-	int state;
+    int x;
+    int y;
+    int shape;
+    int color;
+    int state;
+
 public:
-	Block(int _x, int _y, int _shape, int _color, int _state) : x(_x), y(_y), shape(_shape), color(_color), state(_state) {}
+    Block(int _x, int _y, int _shape, int _color, int _state) : x(_x), y(_y), shape(_shape), color(_color),
+                                                                state(_state) {
+    }
 
-	virtual ~Block() {}
+    virtual ~Block() {
+    }
 
-	int getX() {
-		return x;
-	}
+    int getX() {
+        return x;
+    }
 
-	int getY() {
-		return y;
-	}
+    int getY() {
+        return y;
+    }
 
-	int getShape() {
-		return shape;
-	}
+    int getShape() {
+        return shape;
+    }
 
-	int getColor() {
-		return color;
-	}
+    int getColor() {
+        return color;
+    }
 
-	int getState() {
-		return state;
-	}
+    int getState() {
+        return state;
+    }
 
-	virtual void moveLeft() {
-		x--;
-	}
+    virtual void moveLeft() {
+        x--;
+    }
 
-	virtual void moveRight() {
-		x++;
-	}
+    virtual void moveRight() {
+        x++;
+    }
 
-	virtual void moveDown() {
-		y++;
-	}
+    virtual void moveDown() {
+        y++;
+    }
 
-	virtual void moveUp() {
-		y--;
-	}
+    virtual void moveUp() {
+        y--;
+    }
 
-	virtual void rotate() = 0;
+    virtual void rotate() = 0;
 
-	virtual void rerotate() = 0;
+    virtual void rerotate() = 0;
 
-	virtual void draw() = 0;
+    virtual void draw() = 0;
 
-	virtual void drawPreview() = 0;
+    virtual void drawPreview() = 0;
 };
 
 class OBlock : public Block {
 public:
-	OBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_O, _color, 0) {}
+    OBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_O, _color, 0) {
+    }
 
-	virtual void rotate() {
-		// æ­£æ–¹å½¢æ–¹å—ä¸éœ€è¦æ—‹è½¬
-	}
+    virtual void rotate() {
+        // Õı·½ĞÎ·½¿é²»ĞèÒªĞı×ª
+    }
 
-	virtual void rerotate() {
-		// æ­£æ–¹å½¢æ–¹å—ä¸éœ€è¦æ—‹è½¬
-	}
+    virtual void rerotate() {
+        // Õı·½ĞÎ·½¿é²»ĞèÒªĞı×ª
+    }
 
-	virtual int getState() {
-		// æ­£æ–¹å½¢æ–¹å—æ— æ—‹è½¬çŠ¶æ€
-		return 0;
-	}
+    virtual int getState() {
+        // Õı·½ĞÎ·½¿éÎŞĞı×ª×´Ì¬
+        return 0;
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿éµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
-	}
+        solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
+    }
 
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—çš„åæ ‡
-		int x1 = 12 * gridSize;
-		int y1 = 3 * gridSize;
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿éµÄ×ø±ê
+        int x1 = 12 * gridSize;
+        int y1 = 3 * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
-	}
+        solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
+    }
 };
 
 class IBlock : public Block {
 public:
-	IBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_I, _color, _state) {}
+    IBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_I, _color, _state) {
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 2;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 2;
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 1;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 1;
+        }
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Iå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 4 * gridSize, y1 + gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Iå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1 - gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize;
-		int y1 = 3 * gridSize;
+        if (state == 0) {
+            // »æÖÆIĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 4 * gridSize, y1 + gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄIĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1 - gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize;
+        int y1 = 3 * gridSize;
 
-		if (state == 0) {
-			// ç»˜åˆ¶Iå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 4 * gridSize, y1 + gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Iå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1 - gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
+
+        if (state == 0) {
+            // »æÖÆIĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 4 * gridSize, y1 + gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄIĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1 - gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 };
 
 class LBlock : public Block {
 public:
-	LBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_L, _color, _state) {}
+    LBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_L, _color, _state) {
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 4;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 4;
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 3;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 3;
+        }
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Lå½¢æ–¹å—
-			solidrectangle(x1 + 2 * gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize + halfgridSize;
-		int y1 = 3 * gridSize;
+        if (state == 0) {
+            // »æÖÆLĞÎ·½¿é
+            solidrectangle(x1 + 2 * gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize + halfgridSize;
+        int y1 = 3 * gridSize;
 
-		if (state == 0) {
-			// ç»˜åˆ¶Lå½¢æ–¹å—
-			solidrectangle(x1 + 2 * gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Lå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
+
+        if (state == 0) {
+            // »æÖÆLĞÎ·½¿é
+            solidrectangle(x1 + 2 * gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄLĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 };
 
 class JBlock : public Block {
 public:
-	JBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_J, _color, _state) {}
+    JBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_J, _color, _state) {
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 4;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 4;
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 3;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 3;
+        }
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
+        }
+    }
 
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize + halfgridSize;
-		int y1 = 3 * gridSize;
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize + halfgridSize;
+        int y1 = 3 * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Jå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄJĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
+        }
+    }
 };
 
 class SBlock : public Block {
 public:
-	SBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_S, _color, _state) {}
+    SBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_S, _color, _state) {
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 2;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 2;
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 1;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 1;
+        }
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Så½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 2 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Så½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆSĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 2 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄSĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize + halfgridSize;
-		int y1 = 3 * gridSize;
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize + halfgridSize;
+        int y1 = 3 * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Så½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 2 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Så½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆSĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 3 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 2 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄSĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        }
+    }
 };
 
 class ZBlock : public Block {
 public:
-	ZBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_Z, _color, _state) {}
+    ZBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_Z, _color, _state) {
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 1;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 1;
+        }
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 2;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 2;
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Zå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Zå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆZĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄZĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
+        }
+    }
 
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize + halfgridSize;
-		int y1 = 3 * gridSize;
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize + halfgridSize;
+        int y1 = 3 * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Zå½¢æ–¹å—
-			solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Zå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆZĞÎ·½¿é
+            solidrectangle(x1, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1 + gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄZĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 3 * gridSize);
+        }
+    }
 };
 
 class TBlock : public Block {
 public:
-	TBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_T, _color, _state) {}
+    TBlock(int _x, int _y, int _color, int _state = 0) : Block(_x, _y, SHAPE_T, _color, _state) {
+    }
 
-	virtual void rotate() {
-		state = (state + 1) % 4;
-	}
+    virtual void rotate() {
+        state = (state + 1) % 4;
+    }
 
-	virtual void rerotate() {
-		state = state - 1;
-		if (state < 0) {
-			state = 3;
-		}
-	}
+    virtual void rerotate() {
+        state = state - 1;
+        if (state < 0) {
+            state = 3;
+        }
+    }
 
-	virtual void draw() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = x * gridSize;
-		int y1 = y * gridSize;
+    virtual void draw() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = x * gridSize;
+        int y1 = y * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Tå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆTĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        }
+    }
 
-	virtual void drawPreview() {
-		// è®¡ç®—æ–¹å—å„ä¸ªéƒ¨åˆ†çš„åæ ‡
-		int x1 = 11 * gridSize + halfgridSize;
-		int y1 = 3 * gridSize;
+    virtual void drawPreview() {
+        // ¼ÆËã·½¿é¸÷¸ö²¿·ÖµÄ×ø±ê
+        int x1 = 11 * gridSize + halfgridSize;
+        int y1 = 3 * gridSize;
 
-		// è®¾ç½®å¡«å……é¢œè‰²
-		setfillcolor(color);
+        // ÉèÖÃÌî³äÑÕÉ«
+        setfillcolor(color);
 
-		if (state == 0) {
-			// ç»˜åˆ¶Tå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + gridSize);
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		} else if (state == 1) {
-			// ç»˜åˆ¶æ—‹è½¬90åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 2) {
-			// ç»˜åˆ¶æ—‹è½¬180åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-			solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x + 2 * gridSize, y1 + 3 * gridSize);
-		} else if (state == 3) {
-			// ç»˜åˆ¶æ—‹è½¬270åº¦åçš„Tå½¢æ–¹å—
-			solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
-			solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
-		}
-	}
+        if (state == 0) {
+            // »æÖÆTĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + gridSize);
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        } else if (state == 1) {
+            // »æÖÆĞı×ª90¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1, y1 + gridSize, x1 + gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 2) {
+            // »æÖÆĞı×ª180¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+            solidrectangle(x1 + gridSize, y1 + 2 * gridSize, x + 2 * gridSize, y1 + 3 * gridSize);
+        } else if (state == 3) {
+            // »æÖÆĞı×ª270¶ÈºóµÄTĞÎ·½¿é
+            solidrectangle(x1 + gridSize, y1, x1 + 2 * gridSize, y1 + 3 * gridSize);
+            solidrectangle(x1 + 2 * gridSize, y1 + gridSize, x1 + 3 * gridSize, y1 + 2 * gridSize);
+        }
+    }
 };
 
 class Board {
 private:
-	int width;
-	int height;
-	int** board;
-	int score;
-	string playerName;
-	Block* currentBlock;
-	Block* nextBlock;
+    int width;
+    int height;
+    int **board;
+    int score;
+    string playerName;
+    Block *currentBlock;
+    Block *nextBlock;
 
 public:
-	Board(int _score, string _playerName) : width(10), height(20), board(nullptr),  score(_score), playerName(_playerName), currentBlock(nullptr), nextBlock(nullptr) {
-		// åˆå§‹åŒ–æ£‹ç›˜
-		board = new int*[height];
-		for (int i = 0; i < height; i++) {
-			board[i] = new int[width];
-			for (int j = 0; j < width; j++) {
-				board[i][j] = 0;
-			}
-		}
-	}
+    Board(int _score, string _playerName) : width(10), height(20), board(nullptr), score(_score),
+                                            playerName(_playerName), currentBlock(nullptr), nextBlock(nullptr) {
+        // ³õÊ¼»¯ÆåÅÌ
+        board = new int *[height];
+        for (int i = 0; i < height; i++) {
+            board[i] = new int[width];
+            for (int j = 0; j < width; j++) {
+                board[i][j] = 0;
+            }
+        }
+    }
 
-	~Board() {
-		// é‡Šæ”¾å†…å­˜
-		for (int i = 0; i < height; i++) {
-			delete[] board[i];
-		}
-		//delete[] board;
-		delete currentBlock;
-		delete nextBlock;
-	}
+    ~Board() {
+        // ÊÍ·ÅÄÚ´æ
+        for (int i = 0; i < height; i++) {
+            delete[] board[i];
+        }
+        delete[] board;
+        delete currentBlock;
+        delete nextBlock;
+    }
 
-	int getHeight() {
-		return height;
-	}
+    int getHeight() {
+        return height;
+    }
 
-	int getWidth() {
-		return width;
-	}
+    int getWidth() {
+        return width;
+    }
 
-	int get(int x, int y) {
-		return board[x][y];
-	}
+    int get(int x, int y) {
+        return board[x][y];
+    }
 
-	int getScore() {
-		return score;
-	}
+    int getScore() {
+        return score;
+    }
 
-	Block* getCurrentBlock() {
-		return currentBlock;
-	}
+    Block *getCurrentBlock() {
+        return currentBlock;
+    }
 
-	Block* getNextBlock() {
-		return nextBlock;
-	}
+    Block *getNextBlock() {
+        return nextBlock;
+    }
 
-	string getPlayername() {
-		return playerName;
-	}
+    string getPlayername() {
+        return playerName;
+    }
 
-	void set(int x, int y, int value) {
-		board[x][y] = value;
-	}
+    void set(int x, int y, int value) {
+        board[x][y] = value;
+    }
 
-	void setCurrentBlock(Block* block) {
-		currentBlock = block;
-	}
+    void setCurrentBlock(Block *block) {
+        currentBlock = block;
+    }
 
-	void setNextBlock(Block* block) {
-		nextBlock = block;
-	}
+    void setNextBlock(Block *block) {
+        nextBlock = block;
+    }
 
-	void draw() {
-		// ç»˜åˆ¶æ£‹ç›˜
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				// è®¡ç®—æ ¼å­çš„åæ ‡
-				int x1 = j * gridSize;
-				int y1 = i * gridSize;
-				int x2 = (j + 1) * gridSize;
-				int y2 = (i + 1) * gridSize;
+    void draw() {
+        // »æÖÆÆåÅÌ
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                // ¼ÆËã¸ñ×ÓµÄ×ø±ê
+                int x1 = j * gridSize;
+                int y1 = i * gridSize;
+                int x2 = (j + 1) * gridSize;
+                int y2 = (i + 1) * gridSize;
 
-				// è®¾ç½®å¡«å……é¢œè‰²å’Œçº¿æ¡é¢œè‰²
-				if (board[i][j] == 1) {
-					setfillcolor(COLOR_BOARD);
-				} else {
-					setfillcolor(COLOR_BLOCK);
-				}
-				setlinecolor(BLACK);
+                // ÉèÖÃÌî³äÑÕÉ«ºÍÏßÌõÑÕÉ«
+                if (board[i][j] == 1) {
+                    setfillcolor(COLOR_BOARD);
+                } else {
+                    setfillcolor(COLOR_BLOCK);
+                }
+                setlinecolor(BLACK);
 
-				// ç»˜åˆ¶æ ¼å­
-				fillrectangle(x1, y1, x2, y2);
-			}
-		}
+                // »æÖÆ¸ñ×Ó
+                fillrectangle(x1, y1, x2, y2);
+            }
+        }
 
-		// ç»˜åˆ¶å½“å‰æ–¹å—
-		currentBlock->draw();
+        // »æÖÆµ±Ç°·½¿é
+        currentBlock->draw();
 
-		// ç»˜åˆ¶é¢„å‘Šçª—å£
-		setlinecolor(BLACK);
-		rectangle(11 * gridSize, 2 * gridSize, 15 * gridSize, 6 * gridSize);
-		outtextxy(11 * gridSize, gridSize, _T("Next Block"));
+        // »æÖÆÔ¤¸æ´°¿Ú
+        setlinecolor(BLACK);
+        rectangle(11 * gridSize, 2 * gridSize, 15 * gridSize, 6 * gridSize);
+        outtextxy(11 * gridSize, gridSize, _T("Next Block"));
 
-		// ç»˜åˆ¶ä¸‹ä¸€ä¸ªæ–¹å—
-		if (nextBlock != nullptr) {
-			nextBlock->drawPreview();
-		}
-		// ç»˜åˆ¶åˆ†æ•°
-		string _score = "Score: " + to_string(score);
-		outtextxy(11 * gridSize, 6 * gridSize + halfgridSize, _T(_score.c_str()));
-		// ç»˜åˆ¶ç©å®¶åç§°
-		string _playername = "Player: " + playerName;
-		outtextxy(11 * gridSize, 8 * gridSize, _T(_playername.c_str()));
-	}
+        // »æÖÆÏÂÒ»¸ö·½¿é
+        if (nextBlock != nullptr) {
+            nextBlock->drawPreview();
+        }
+        // »æÖÆ·ÖÊı
+        string _score = "Score: " + to_string(score);
+        outtextxy(11 * gridSize, 6 * gridSize + halfgridSize, _T(_score.c_str()));
+        // »æÖÆÍæ¼ÒÃû³Æ
+        string _playername = "Player: " + playerName;
+        outtextxy(11 * gridSize, 8 * gridSize, _T(_playername.c_str()));
+    }
 
-	void generateBlock() {
-		// å¦‚æœ nextBlock ä¸ºç©ºï¼Œåˆ™ç”Ÿæˆä¸€ä¸ªæ–°çš„æ–¹å—
-		if (nextBlock == nullptr) {
-			switch (rand() % 7) {
-				case SHAPE_O:
-					nextBlock = new OBlock(width / 2 - 1, 0, BLUE);
-					break;
-				case SHAPE_I:
-					nextBlock = new IBlock(width / 2 - 1, 0, GREEN);
-					break;
-				case SHAPE_L:
-					nextBlock = new LBlock(width / 2 - 1, 0, RED);
-					break;
-				case SHAPE_J:
-					nextBlock = new JBlock(width / 2 - 1, 0, MAGENTA);
-					break;
-				case SHAPE_S:
-					nextBlock = new SBlock(width / 2 - 1, 0, DARKGRAY);
-					break;
-				case SHAPE_Z:
-					nextBlock = new ZBlock(width / 2 - 1, 0, LIGHTCYAN);
-					break;
-				case SHAPE_T:
-					nextBlock = new TBlock(width / 2 - 1, 0, CYAN);
-					break;
-			}
-		}
+    void generateBlock() {
+        // Èç¹û nextBlock Îª¿Õ£¬ÔòÉú³ÉÒ»¸öĞÂµÄ·½¿é
+        if (nextBlock == nullptr) {
+            switch (rand() % 7) {
+                case SHAPE_O:
+                    nextBlock = new OBlock(width / 2 - 1, 0, BLUE);
+                    break;
+                case SHAPE_I:
+                    nextBlock = new IBlock(width / 2 - 1, 0, GREEN);
+                    break;
+                case SHAPE_L:
+                    nextBlock = new LBlock(width / 2 - 1, 0, RED);
+                    break;
+                case SHAPE_J:
+                    nextBlock = new JBlock(width / 2 - 1, 0, MAGENTA);
+                    break;
+                case SHAPE_S:
+                    nextBlock = new SBlock(width / 2 - 1, 0, DARKGRAY);
+                    break;
+                case SHAPE_Z:
+                    nextBlock = new ZBlock(width / 2 - 1, 0, LIGHTCYAN);
+                    break;
+                case SHAPE_T:
+                    nextBlock = new TBlock(width / 2 - 1, 0, CYAN);
+                    break;
+            }
+        }
 
-		currentBlock = nextBlock; // å°† currentBlock è®¾ç½®ä¸º nextBlock
-		// å†æ¬¡ç”Ÿæˆä¸€ä¸ªæ–°çš„æ–¹å—èµ‹å€¼ç»™ nextBlock
-		switch (rand() % 7) {
-			case SHAPE_O:
-				nextBlock = new OBlock(width / 2 - 1, 0, BLUE);
-				break;
-			case SHAPE_I:
-				nextBlock = new IBlock(width / 2 - 1, 0, GREEN);
-				break;
-			case SHAPE_L:
-				nextBlock = new LBlock(width / 2 - 1, 0, RED);
-				break;
-			case SHAPE_J:
-				nextBlock = new JBlock(width / 2 - 1, 0, MAGENTA);
-				break;
-			case SHAPE_S:
-				nextBlock = new SBlock(width / 2 - 1, 0, DARKGRAY);
-				break;
-			case SHAPE_Z:
-				nextBlock = new ZBlock(width / 2 - 1, 0, LIGHTCYAN);
-				break;
-			case SHAPE_T:
-				nextBlock = new TBlock(width / 2 - 1, 0, CYAN);
-				break;
-		}
-	}
+        currentBlock = nextBlock; // ½« currentBlock ÉèÖÃÎª nextBlock
+        // ÔÙ´ÎÉú³ÉÒ»¸öĞÂµÄ·½¿é¸³Öµ¸ø nextBlock
+        switch (rand() % 7) {
+            case SHAPE_O:
+                nextBlock = new OBlock(width / 2 - 1, 0, BLUE);
+                break;
+            case SHAPE_I:
+                nextBlock = new IBlock(width / 2 - 1, 0, GREEN);
+                break;
+            case SHAPE_L:
+                nextBlock = new LBlock(width / 2 - 1, 0, RED);
+                break;
+            case SHAPE_J:
+                nextBlock = new JBlock(width / 2 - 1, 0, MAGENTA);
+                break;
+            case SHAPE_S:
+                nextBlock = new SBlock(width / 2 - 1, 0, DARKGRAY);
+                break;
+            case SHAPE_Z:
+                nextBlock = new ZBlock(width / 2 - 1, 0, LIGHTCYAN);
+                break;
+            case SHAPE_T:
+                nextBlock = new TBlock(width / 2 - 1, 0, CYAN);
+                break;
+        }
+    }
 
-	bool isCollideWithLeft() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int x = currentBlock->getX();
-		int shape = currentBlock->getShape();
-		int state = 0;
+    bool isCollideWithLeft() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int x = currentBlock->getX();
+        int shape = currentBlock->getShape();
+        int state = 0;
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶åˆ¤æ–­æ˜¯å¦ä¸å·¦ä¾§è¾¹ç•Œç¢°æ’
-		switch (shape) {
-			case SHAPE_O:
-				if (x < 0 ) {
-					return true;
-				}
-				break;
-			case SHAPE_I:
-				// æ£€æŸ¥Iå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 1 < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_L:
-				// æ£€æŸ¥Lå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_J:
-				// æ£€æŸ¥Jå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_S:
-				// æ£€æŸ¥Så½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_Z:
-				// æ£€æŸ¥Zå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_T:
-				// æ£€æŸ¥Tå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x + 1 < 0) {
-						return true;
-					}
-				}
-				break;
-			default:
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´ÅĞ¶ÏÊÇ·ñÓë×ó²à±ß½çÅö×²
+        switch (shape) {
+            case SHAPE_O:
+                if (x < 0) {
+                    return true;
+                }
+                break;
+            case SHAPE_I:
+                // ¼ì²éIĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 1 < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_L:
+                // ¼ì²éLĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_J:
+                // ¼ì²éJĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_S:
+                // ¼ì²éSĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_Z:
+                // ¼ì²éZĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_T:
+                // ¼ì²éTĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x + 1 < 0) {
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool isCollideWithRight() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int x = currentBlock->getX();
-		int shape = currentBlock->getShape();
-		int state = 0;
+    bool isCollideWithRight() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int x = currentBlock->getX();
+        int shape = currentBlock->getShape();
+        int state = 0;
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶åˆ¤æ–­æ˜¯å¦ä¸å³ä¾§è¾¹ç•Œç¢°æ’
-		switch (shape) {
-			case SHAPE_O:
-				if (x + 2 > width) {
-					return true;
-				}
-				break;
-			case SHAPE_I:
-				// æ£€æŸ¥Iå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 4 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_L:
-				// æ£€æŸ¥Lå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x + 2 > width) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_J:
-				// æ£€æŸ¥Jå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x + 2 > width) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_S:
-				// æ£€æŸ¥Så½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_Z:
-				// æ£€æŸ¥Zå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_T:
-				// æ£€æŸ¥Tå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (x + 2 > width) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (x + 3 > width) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (x + 3 > width) {
-						return true;
-					}
-				}
-				break;
-			default:
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´ÅĞ¶ÏÊÇ·ñÓëÓÒ²à±ß½çÅö×²
+        switch (shape) {
+            case SHAPE_O:
+                if (x + 2 > width) {
+                    return true;
+                }
+                break;
+            case SHAPE_I:
+                // ¼ì²éIĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 4 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_L:
+                // ¼ì²éLĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_J:
+                // ¼ì²éJĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_S:
+                // ¼ì²éSĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_Z:
+                // ¼ì²éZĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_T:
+                // ¼ì²éTĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (x + 2 > width) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (x + 3 > width) {
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool isCollideWithTop() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int y = currentBlock->getY();
-		int shape = currentBlock->getShape();
-		int state = 0;
+    bool isCollideWithTop() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int y = currentBlock->getY();
+        int shape = currentBlock->getShape();
+        int state = 0;
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶åˆ¤æ–­æ˜¯å¦ä¸åº•éƒ¨ç¢°æ’
-		switch (shape) {
-			case SHAPE_O:
-				if (y < 0) {
-					return true;
-				}
-				break;
-			case SHAPE_I:
-				// æ£€æŸ¥Iå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y - 1 < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_L:
-				// æ£€æŸ¥Lå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_J:
-				// æ£€æŸ¥Jå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_S:
-				// æ£€æŸ¥Så½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_Z:
-				// æ£€æŸ¥Zå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y < 0) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_T:
-				// æ£€æŸ¥Tå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y < 0) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y + 1 < 0) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y < 0) {
-						return true;
-					}
-				}
-				break;
-			default:
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´ÅĞ¶ÏÊÇ·ñÓëµ×²¿Åö×²
+        switch (shape) {
+            case SHAPE_O:
+                if (y < 0) {
+                    return true;
+                }
+                break;
+            case SHAPE_I:
+                // ¼ì²éIĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y - 1 < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_L:
+                // ¼ì²éLĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_J:
+                // ¼ì²éJĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_S:
+                // ¼ì²éSĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_Z:
+                // ¼ì²éZĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y < 0) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_T:
+                // ¼ì²éTĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y < 0) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y + 1 < 0) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y < 0) {
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool isCollideWithBottom() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int y = currentBlock->getY();
-		int shape = currentBlock->getShape();
-		int state = 0;
+    bool isCollideWithBottom() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int y = currentBlock->getY();
+        int shape = currentBlock->getShape();
+        int state = 0;
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶åˆ¤æ–­æ˜¯å¦ä¸åº•éƒ¨ç¢°æ’
-		switch (shape) {
-			case SHAPE_O:
-				if (y + 2 > height) {
-					return true;
-				}
-				break;
-			case SHAPE_I:
-				// æ£€æŸ¥Iå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 1 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_L:
-				// æ£€æŸ¥Lå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_J:
-				// æ£€æŸ¥Jå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_S:
-				// æ£€æŸ¥Så½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_Z:
-				// æ£€æŸ¥Zå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_T:
-				// æ£€æŸ¥Tå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (y + 2 > height) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (y + 3 > height) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (y + 3 > height) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (y + 3 > height) {
-						return true;
-					}
-				}
-				break;
-			default:
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´ÅĞ¶ÏÊÇ·ñÓëµ×²¿Åö×²
+        switch (shape) {
+            case SHAPE_O:
+                if (y + 2 > height) {
+                    return true;
+                }
+                break;
+            case SHAPE_I:
+                // ¼ì²éIĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 1 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_L:
+                // ¼ì²éLĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_J:
+                // ¼ì²éJĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_S:
+                // ¼ì²éSĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_Z:
+                // ¼ì²éZĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_T:
+                // ¼ì²éTĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (y + 2 > height) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (y + 3 > height) {
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool isCollideWithBlock() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int x = currentBlock->getX();
-		int y = currentBlock->getY();
-		int shape = currentBlock->getShape();
-		int state = 0;
+    bool isCollideWithBlock() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int x = currentBlock->getX();
+        int y = currentBlock->getY();
+        int shape = currentBlock->getShape();
+        int state = 0;
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶åˆ¤æ–­æ˜¯å¦ä¸å…¶ä»–æ–¹å—ç¢°æ’
-		switch (shape) {
-			case SHAPE_O:
-				if (board[y][x] || board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1]) {
-					return true;
-				}
-				break;
-			case SHAPE_I:
-				// æ£€æŸ¥Iå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y][x + 3]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[max(y - 1, 0)][x + 1] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_L:
-				// æ£€æŸ¥Lå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2] || board[y][x + 2]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[y][x] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y + 1][x]) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (board[y][x] || board[y + 1][x] || board[y + 2][x] || board[y + 2][x + 1]) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_J:
-				// æ£€æŸ¥Jå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y][x] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1] || board[y + 2][x]) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y + 1][x + 2]) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (board[y][x] || board[y][x + 1] || board[y + 1][x] || board[y + 2][x]) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_S:
-				// æ£€æŸ¥Så½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y][x + 1] || board[y][x + 2] || board[y + 1][x] || board[y + 1][x + 1]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[y][x] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_Z:
-				// æ£€æŸ¥Zå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y][x] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x]) {
-						return true;
-					}
-				}
-				break;
-			case SHAPE_T:
-				// æ£€æŸ¥Tå½¢æ–¹å—æ—‹è½¬åçš„çŠ¶æ€
-				state = currentBlock->getState();
-				if (state == 0) {
-					if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
-						return true;
-					}
-				} else if (state == 1) {
-					if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
-						return true;
-					}
-				} else if (state == 2) {
-					if (board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2] || board[y + 2][x + 1]) {
-						return true;
-					}
-				} else if (state == 3) {
-					if (board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1] || board[y + 1][x + 2]) {
-						return true;
-					}
-				}
-				break;
-			default:
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´ÅĞ¶ÏÊÇ·ñÓëÆäËû·½¿éÅö×²
+        switch (shape) {
+            case SHAPE_O:
+                if (board[y][x] || board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1]) {
+                    return true;
+                }
+                break;
+            case SHAPE_I:
+                // ¼ì²éIĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y][x + 3]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[max(y - 1, 0)][x + 1] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_L:
+                // ¼ì²éLĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2] || board[y][x + 2]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[y][x] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y + 1][x]) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (board[y][x] || board[y + 1][x] || board[y + 2][x] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_J:
+                // ¼ì²éJĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y][x] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1] || board[y + 2][x]) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (board[y][x] || board[y][x + 1] || board[y][x + 2] || board[y + 1][x + 2]) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (board[y][x] || board[y][x + 1] || board[y + 1][x] || board[y + 2][x]) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_S:
+                // ¼ì²éSĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y][x + 1] || board[y][x + 2] || board[y + 1][x] || board[y + 1][x + 1]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[y][x] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_Z:
+                // ¼ì²éZĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y][x] || board[y][x + 1] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x]) {
+                        return true;
+                    }
+                }
+                break;
+            case SHAPE_T:
+                // ¼ì²éTĞÎ·½¿éĞı×ªºóµÄ×´Ì¬
+                state = currentBlock->getState();
+                if (state == 0) {
+                    if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2]) {
+                        return true;
+                    }
+                } else if (state == 1) {
+                    if (board[y][x + 1] || board[y + 1][x] || board[y + 1][x + 1] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                } else if (state == 2) {
+                    if (board[y + 1][x] || board[y + 1][x + 1] || board[y + 1][x + 2] || board[y + 2][x + 1]) {
+                        return true;
+                    }
+                } else if (state == 3) {
+                    if (board[y][x + 1] || board[y + 1][x + 1] || board[y + 2][x + 1] || board[y + 1][x + 2]) {
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	void fixBlock() {
-		// è·å–å½“å‰æ–¹å—çš„ä½ç½®å’Œå½¢çŠ¶
-		int x = currentBlock->getX();
-		int y = currentBlock->getY();
-		int shape = currentBlock->getShape();
-		int state = currentBlock->getState();
+    void fixBlock() {
+        // »ñÈ¡µ±Ç°·½¿éµÄÎ»ÖÃºÍĞÎ×´
+        int x = currentBlock->getX();
+        int y = currentBlock->getY();
+        int shape = currentBlock->getShape();
+        int state = currentBlock->getState();
 
-		// æ ¹æ®æ–¹å—å½¢çŠ¶æ›´æ–°æ£‹ç›˜æ•°æ®
-		switch (shape) {
-			case SHAPE_O:
-				board[y][x] = 1;
-				board[y][x + 1] = 1;
-				board[y + 1][x] = 1;
-				board[y + 1][x + 1] = 1;
-				break;
-			case SHAPE_I:
-				if (state == 0) {
-					board[y][x] = 1;
-					board[y][x + 1] = 1;
-					board[y][x + 2] = 1;
-					board[y][x + 3] = 1;
-				} else if (state == 1) {
-					board[y - 1][x + 1] = 1;
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-				}
-				break;
-			case SHAPE_L:
-				if (state == 0) {
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-					board[y][x + 2] = 1;
-				} else if (state == 1) {
-					board[y][x] = 1;
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-				} else if (state == 2) {
-					board[y][x] = 1;
-					board[y][x + 1] = 1;
-					board[y][x + 2] = 1;
-					board[y + 1][x] = 1;
-				} else if (state == 3) {
-					board[y][x] = 1;
-					board[y + 1][x] = 1;
-					board[y + 2][x] = 1;
-					board[y + 2][x + 1] = 1;
-				}
-				break;
-			case SHAPE_J:
-				if (state == 0) {
-					board[y][x] = 1;
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-				} else if (state == 1) {
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-					board[y + 2][x] = 1;
-				} else if (state == 2) {
-					board[y][x] = 1;
-					board[y][x + 1] = 1;
-					board[y][x + 2] = 1;
-					board[y + 1][x + 2] = 1;
-				} else if (state == 3) {
-					board[y][x] = 1;
-					board[y + 1][x] = 1;
-					board[y + 2][x] = 1;
-					board[y][x + 1] = 1;
-				}
-				break;
-			case SHAPE_S:
-				if (state == 0) {
-					board[y][x + 1] = 1;
-					board[y][x + 2] = 1;
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-				} else if (state == 1) {
-					board[y][x] = 1;
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-				}
-				break;
-			case SHAPE_Z:
-				if (state == 0) {
-					board[y][x] = 1;
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-				} else if (state == 1) {
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x] = 1;
-					board[y + 2][x] = 1;
-				}
-				break;
-			case SHAPE_T:
-				if (state == 0) {
-					board[y][x + 1] = 1;
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-				} else if (state == 1) {
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-					board[y + 1][x] = 1;
-				} else if (state == 2) {
-					board[y + 1][x] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-					board[y + 2][x + 1] = 1;
-				} else if (state == 3) {
-					board[y][x + 1] = 1;
-					board[y + 1][x + 1] = 1;
-					board[y + 2][x + 1] = 1;
-					board[y + 1][x + 2] = 1;
-				}
-				break;
-		}
+        // ¸ù¾İ·½¿éĞÎ×´¸üĞÂÆåÅÌÊı¾İ
+        switch (shape) {
+            case SHAPE_O:
+                board[y][x] = 1;
+                board[y][x + 1] = 1;
+                board[y + 1][x] = 1;
+                board[y + 1][x + 1] = 1;
+                break;
+            case SHAPE_I:
+                if (state == 0) {
+                    board[y][x] = 1;
+                    board[y][x + 1] = 1;
+                    board[y][x + 2] = 1;
+                    board[y][x + 3] = 1;
+                } else if (state == 1) {
+                    board[y - 1][x + 1] = 1;
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                }
+                break;
+            case SHAPE_L:
+                if (state == 0) {
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                    board[y][x + 2] = 1;
+                } else if (state == 1) {
+                    board[y][x] = 1;
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                } else if (state == 2) {
+                    board[y][x] = 1;
+                    board[y][x + 1] = 1;
+                    board[y][x + 2] = 1;
+                    board[y + 1][x] = 1;
+                } else if (state == 3) {
+                    board[y][x] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 2][x] = 1;
+                    board[y + 2][x + 1] = 1;
+                }
+                break;
+            case SHAPE_J:
+                if (state == 0) {
+                    board[y][x] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                } else if (state == 1) {
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                    board[y + 2][x] = 1;
+                } else if (state == 2) {
+                    board[y][x] = 1;
+                    board[y][x + 1] = 1;
+                    board[y][x + 2] = 1;
+                    board[y + 1][x + 2] = 1;
+                } else if (state == 3) {
+                    board[y][x] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 2][x] = 1;
+                    board[y][x + 1] = 1;
+                }
+                break;
+            case SHAPE_S:
+                if (state == 0) {
+                    board[y][x + 1] = 1;
+                    board[y][x + 2] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                } else if (state == 1) {
+                    board[y][x] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                }
+                break;
+            case SHAPE_Z:
+                if (state == 0) {
+                    board[y][x] = 1;
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                } else if (state == 1) {
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 2][x] = 1;
+                }
+                break;
+            case SHAPE_T:
+                if (state == 0) {
+                    board[y][x + 1] = 1;
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                } else if (state == 1) {
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                    board[y + 1][x] = 1;
+                } else if (state == 2) {
+                    board[y + 1][x] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                    board[y + 2][x + 1] = 1;
+                } else if (state == 3) {
+                    board[y][x + 1] = 1;
+                    board[y + 1][x + 1] = 1;
+                    board[y + 2][x + 1] = 1;
+                    board[y + 1][x + 2] = 1;
+                }
+                break;
+        }
 
-		// åˆ é™¤å½“å‰æ–¹å—
-		delete currentBlock;
+        // É¾³ıµ±Ç°·½¿é
+        delete currentBlock;
 
-		// æ¶ˆé™¤æ»¡è¡Œ
-		removeFullLines();
-	}
+        // Ïû³ıÂúĞĞ
+        removeFullLines();
+    }
 
-	void removeFullLines() {
-		// ç”¨äºæ£€æµ‹æœ¬æ¬¡æ¶ˆé™¤äº†å‡ è¡Œ
-		int scoreFlag = 0;
+    void removeFullLines() {
+        // ÓÃÓÚ¼ì²â±¾´ÎÏû³ıÁË¼¸ĞĞ
+        int scoreFlag = 0;
 
-		for (int i = height - 1; i >= 0; i--) {
-			// æ£€æŸ¥ç¬¬iè¡Œæ˜¯å¦è¢«å¡«æ»¡
-			bool isFull = true;
-			for (int j = 0; j < width; j++) {
-				if (board[i][j] == 0) {
-					isFull = false;
-					break;
-				}
-			}
+        for (int i = height - 1; i >= 0; i--) {
+            // ¼ì²éµÚiĞĞÊÇ·ñ±»ÌîÂú
+            bool isFull = true;
+            for (int j = 0; j < width; j++) {
+                if (board[i][j] == 0) {
+                    isFull = false;
+                    break;
+                }
+            }
 
-			// å¦‚æœç¬¬iè¡Œè¢«å¡«æ»¡ï¼Œåˆ™æ¶ˆé™¤è¯¥è¡Œå¹¶å°†ä¸Šé¢çš„æ‰€æœ‰è¡Œä¸‹ç§»ä¸€è¡Œå¹¶æ›´æ–°åˆ†æ•°
-			if (isFull) {
-				//æ¶ˆé™¤ä¸€è¡Œè·å¾—1åˆ†ï¼Œä¸¤è¡Œ3åˆ†ï¼Œä¸‰è¡Œ6åˆ†ï¼Œå››è¡Œ10åˆ†
-				scoreFlag++;
-				switch (scoreFlag) {
-					case 1:
-						score = score + 1;
-						break;
-					case 2:
-						score = score + 2;
-						break;
-					case 3:
-						score = score + 3;
-						break;
-					case 4:
-						score = score + 4;
-						break;
-					default:
-						break;
-				}
+            // Èç¹ûµÚiĞĞ±»ÌîÂú£¬ÔòÏû³ı¸ÃĞĞ²¢½«ÉÏÃæµÄËùÓĞĞĞÏÂÒÆÒ»ĞĞ²¢¸üĞÂ·ÖÊı
+            if (isFull) {
+                //Ïû³ıÒ»ĞĞ»ñµÃ1·Ö£¬Á½ĞĞ3·Ö£¬ÈıĞĞ6·Ö£¬ËÄĞĞ10·Ö
+                scoreFlag++;
+                switch (scoreFlag) {
+                    case 1:
+                        score = score + 1;
+                        break;
+                    case 2:
+                        score = score + 2;
+                        break;
+                    case 3:
+                        score = score + 3;
+                        break;
+                    case 4:
+                        score = score + 4;
+                        break;
+                    default:
+                        break;
+                }
 
-				for (int k = i; k > 0; k--) {
-					for (int j = 0; j < width; j++) {
-						board[k][j] = board[k - 1][j];
-					}
-				}
+                for (int k = i; k > 0; k--) {
+                    for (int j = 0; j < width; j++) {
+                        board[k][j] = board[k - 1][j];
+                    }
+                }
 
-				// ç»§ç»­æ£€æŸ¥ç¬¬iè¡Œ
-				i++;
-			}
-		}
-	}
+                // ¼ÌĞø¼ì²éµÚiĞĞ
+                i++;
+            }
+        }
+    }
 
-	bool isGameOver() {
-		// æ£€æŸ¥æ£‹ç›˜é¡¶éƒ¨æ˜¯å¦æœ‰æ–¹å—
-		for (int j = 0; j < width; j++) {
-			if (board[0][j] == 1) {
-				return true;
-			}
-		}
-		return false;
-	}
+    bool isGameOver() {
+        // ¼ì²éÆåÅÌ¶¥²¿ÊÇ·ñÓĞ·½¿é
+        for (int j = 0; j < width; j++) {
+            if (board[0][j] == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	void handleKey(int key, int directKeyFlag) {
-		switch (directKeyFlag) {
-			case 1:
-				switch (key) {
-					case KEY_LEFT:
-						currentBlock->moveLeft();
+    void handleKey(int key, int directKeyFlag) {
+        switch (directKeyFlag) {
+            case 1:
+                switch (key) {
+                    case KEY_LEFT:
+                        currentBlock->moveLeft();
 
-						if (isCollideWithLeft() || isCollideWithBlock()) {
-							currentBlock->moveRight();
-						}
-						break;
-					case KEY_RIGHT:
-						currentBlock->moveRight();
+                        if (isCollideWithLeft() || isCollideWithBlock()) {
+                            currentBlock->moveRight();
+                        }
+                        break;
+                    case KEY_RIGHT:
+                        currentBlock->moveRight();
 
-						if (isCollideWithRight() || isCollideWithBlock()) {
-							currentBlock->moveLeft();
-						}
-						break;
-					case KEY_DOWN:
-						currentBlock->moveDown();
+                        if (isCollideWithRight() || isCollideWithBlock()) {
+                            currentBlock->moveLeft();
+                        }
+                        break;
+                    case KEY_DOWN:
+                        currentBlock->moveDown();
 
-						if (isCollideWithBottom() || isCollideWithBlock()) {
-							currentBlock->moveUp();
-						}
-						break;
-					case KEY_UP:
-						currentBlock->rotate();
+                        if (isCollideWithBottom() || isCollideWithBlock()) {
+                            currentBlock->moveUp();
+                        }
+                        break;
+                    case KEY_UP:
+                        currentBlock->rotate();
 
-						if (isCollideWithBlock() || isCollideWithRight() || isCollideWithLeft() || isCollideWithBottom() || isCollideWithTop()) {
-							currentBlock->rerotate();
-						}
-						break;
-				}
-				break;
-			case -1:
-				switch (key) {
-					case KEY_A:
-						currentBlock->moveLeft();
-						if (isCollideWithLeft() || isCollideWithBlock()) {
-							currentBlock->moveRight();
-						}
-						currentBlock->moveUp();
-						if (isCollideWithTop() || isCollideWithBlock()) {
-							currentBlock->moveDown();
-						}
-						break;
-					case KEY_D:
-						currentBlock->moveRight();
-						if (isCollideWithRight() || isCollideWithBlock()) {
-							currentBlock->moveLeft();
-						}
-						currentBlock->moveUp();
-						if (isCollideWithTop() || isCollideWithBlock()) {
-							currentBlock->moveDown();
-						}
-						break;
-					case KEY_S:
-						currentBlock->moveDown();
+                        if (isCollideWithBlock() || isCollideWithRight() || isCollideWithLeft() || isCollideWithBottom()
+                            || isCollideWithTop()) {
+                            currentBlock->rerotate();
+                        }
+                        break;
+                }
+                break;
+            case -1:
+                switch (key) {
+                    case KEY_A:
+                        currentBlock->moveLeft();
+                        if (isCollideWithLeft() || isCollideWithBlock()) {
+                            currentBlock->moveRight();
+                        }
+                        currentBlock->moveUp();
+                        if (isCollideWithTop() || isCollideWithBlock()) {
+                            currentBlock->moveDown();
+                        }
+                        break;
+                    case KEY_D:
+                        currentBlock->moveRight();
+                        if (isCollideWithRight() || isCollideWithBlock()) {
+                            currentBlock->moveLeft();
+                        }
+                        currentBlock->moveUp();
+                        if (isCollideWithTop() || isCollideWithBlock()) {
+                            currentBlock->moveDown();
+                        }
+                        break;
+                    case KEY_S:
+                        currentBlock->moveDown();
 
-						if (isCollideWithBottom() || isCollideWithBlock()) {
-							currentBlock->moveUp();
-						}
-						break;
-					case KEY_W:
-						currentBlock->rotate();
-						if (isCollideWithBlock() || isCollideWithRight() || isCollideWithLeft() || isCollideWithBottom() || isCollideWithTop()) {
-							currentBlock->rerotate();
-						}
-						currentBlock->moveUp();
-						if (isCollideWithTop() || isCollideWithBlock()) {
-							currentBlock->moveDown();
-						}
-						break;
-				}
-				break;
-			default:
-				break;
-		}
-	}
+                        if (isCollideWithBottom() || isCollideWithBlock()) {
+                            currentBlock->moveUp();
+                        }
+                        break;
+                    case KEY_W:
+                        currentBlock->rotate();
+                        if (isCollideWithBlock() || isCollideWithRight() || isCollideWithLeft() || isCollideWithBottom()
+                            || isCollideWithTop()) {
+                            currentBlock->rerotate();
+                        }
+                        currentBlock->moveUp();
+                        if (isCollideWithTop() || isCollideWithBlock()) {
+                            currentBlock->moveDown();
+                        }
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
-	void update() {
-		// æ–¹å—è‡ªåŠ¨ä¸‹è½
-		currentBlock->moveDown();
+    void update() {
+        // ·½¿é×Ô¶¯ÏÂÂä
+        currentBlock->moveDown();
 
-		if ((isCollideWithBottom() || isCollideWithBlock())) {
-			// æ’¤é”€ç§»åŠ¨
-			currentBlock->moveUp();
+        if ((isCollideWithBottom() || isCollideWithBlock())) {
+            // ³·ÏúÒÆ¶¯
+            currentBlock->moveUp();
 
-			// è‹¥ç”¨æˆ·ä»æœ‰æ“ä½œåˆ™å…ˆä¸å›ºå®š
-			if (!_kbhit()) {
-				// å›ºå®šæ–¹å—
-				fixBlock();
-				for (int i = 0; i < height; i++) {
-					for (int j = 0; j < width; j++) {
-						cout << board[i][j] << " ";
-					}
-					cout << endl;
-				}
+            // ÈôÓÃ»§ÈÔÓĞ²Ù×÷ÔòÏÈ²»¹Ì¶¨
+            if (!_kbhit()) {
+                // ¹Ì¶¨·½¿é
+                fixBlock();
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        cout << board[i][j] << " ";
+                    }
+                    cout << endl;
+                }
 
-				// ç”Ÿæˆæ–°çš„æ–¹å—
-				generateBlock();
-			}
-		}
-	}
+                // Éú³ÉĞÂµÄ·½¿é
+                generateBlock();
+            }
+        }
+    }
 };
 
 class Player {
 private:
-	string name;
-	int score;
-	int gamemode;
+    string name;
+    int score;
+    int gamemode;
+
 public:
-	Player(string _name, int _score = 0, int _gamemode = MODE_EASY) : name(_name), score(_score), gamemode(_gamemode) {}
+    Player(string _name, int _score = 0, int _gamemode = MODE_EASY) : name(_name), score(_score), gamemode(_gamemode) {
+    }
 
-	~Player() {}
+    ~Player() {
+    }
 
-	const string& getName() const {
-		return name;
-	}
+    const string &getName() const {
+        return name;
+    }
 
-	int getScore() const {
-		return score;
-	}
+    int getScore() const {
+        return score;
+    }
 
-	int getGameMode() {
-		return gamemode;
-	}
+    int getGameMode() {
+        return gamemode;
+    }
 
-	void setScore(int _score) {
-		score = _score;
-	}
+    void setScore(int _score) {
+        score = _score;
+    }
 
-	void setGameMode(int _gamemode) {
-		gamemode = _gamemode;
-	}
+    void setGameMode(int _gamemode) {
+        gamemode = _gamemode;
+    }
 };
 
 class Leaderboard {
 private:
-	vector<Player*> players;
+    vector<Player *> players;
+
 public:
-	~Leaderboard() {
-		// é‡Šæ”¾å†…å­˜
-		for (Player * player : players) {
-			delete player;
-		}
-	}
+    ~Leaderboard() {
+        // ÊÍ·ÅÄÚ´æ
+        for (Player *player: players) {
+            delete player;
+        }
+    }
 
-	void addPlayer(Player* player) {
-		players.push_back(player);
-	}
+    void addPlayer(Player *player) {
+        players.push_back(player);
+    }
 
-	void load() {
-		// è½½å…¥æ’è¡Œæ¦œ
-		players.clear();
-		ifstream file("leaderboard.txt");
-		if (!file.is_open()) {
-			return;
-		}
+    void load() {
+        // ÔØÈëÅÅĞĞ°ñ
+        players.clear();
+        ifstream file("leaderboard.txt");
+        if (!file.is_open()) {
+            return;
+        }
 
-		string playerName;
-		int score;
-		int gameMode;
-		while (file >> playerName >> score >> gameMode) {
-			players.push_back(new Player(playerName, score, gameMode));
-		}
+        string playerName;
+        int score;
+        int gameMode;
+        while (file >> playerName >> score >> gameMode) {
+            players.push_back(new Player(playerName, score, gameMode));
+        }
 
-		file.close();
-	}
+        file.close();
+    }
 
-	void save() {
-		// å­˜å‚¨æ’è¡Œæ¦œ
-		ofstream file("leaderboard.txt");
-		if (!file.is_open()) {
-			return;
-		}
+    void save() {
+        // ´æ´¢ÅÅĞĞ°ñ
+        ofstream file("leaderboard.txt");
+        if (!file.is_open()) {
+            return;
+        }
 
-		for (const auto& player : players) {
-			file << player->getName() << " " << player->getScore() << " " << player->getGameMode() << endl;
-		}
-		file.close();
-	}
+        for (const auto &player: players) {
+            file << player->getName() << " " << player->getScore() << " " << player->getGameMode() << endl;
+        }
+        file.close();
+    }
 
-	void sortPlayers() {
-		// æŒ‰åˆ†æ•°æ’åº
-		sort(players.begin(), players.end(), [](const Player * a, const Player * b) {
-			return a->getScore() > b->getScore();
-		});
-	}
+    void sortPlayers() {
+        // °´·ÖÊıÅÅĞò
+        sort(players.begin(), players.end(), [](const Player *a, const Player *b) {
+            return a->getScore() > b->getScore();
+        });
+    }
 
-	void show(int gameMode, int x, int y) {
-		// æŒ‰æ¸¸æˆæ¨¡å¼ç»˜åˆ¶æ’è¡Œæ¦œ
-		int rank = 1;
-		for (const auto& player : players) {
-			if (player->getGameMode() == gameMode) {
-				stringstream ss;
-				ss << rank++ << ". " << player->getName() << " " << player->getScore();
-				string text = ss.str();
-				outtextxy(x, y, text.c_str());
-				y += gridSize;
-				if (rank > 10) {
-					break;
-				}
-			}
-		}
-	}
+    void show(int gameMode, int x, int y) {
+        // °´ÓÎÏ·Ä£Ê½»æÖÆÅÅĞĞ°ñ
+        int rank = 1;
+        for (const auto &player: players) {
+            if (player->getGameMode() == gameMode) {
+                stringstream ss;
+                ss << rank++ << ". " << player->getName() << " " << player->getScore();
+                string text = ss.str();
+                outtextxy(x, y, text.c_str());
+                y += gridSize;
+                if (rank > 10) {
+                    break;
+                }
+            }
+        }
+    }
 };
 
 class Game {
 private:
-	Board* board; // æ£‹ç›˜å¯¹è±¡
-	Player* player; // ç©å®¶å¯¹è±¡
-	Leaderboard* leaderboard; // æ’è¡Œæ¦œå¯¹è±¡
-	int currentPage; // å½“å‰é¡µé¢
-	int key = 0;// ç”¨æˆ·æ“ä½œ
-	vector<IMAGE> images; // å­˜å‚¨å›¾ç‰‡çš„å‘é‡
-	bool playBGM; // éŸ³ä¹æ’­æ”¾çŠ¶æ€
-	int mascotoLocation; // å‰ç¥¥ç‰©ä½ç½®
-	int mascotoLocationFlag; // å‰ç¥¥ç‰©ä½ç½®æ ‡å¿—
-	int directKeyFlag;// æ–¹å‘é”®æ ‡å¿—
-	int pauseKeyFlag;// æš‚åœé”®æ ‡å¿—
+    Board *board; // ÆåÅÌ¶ÔÏó
+    Player *player; // Íæ¼Ò¶ÔÏó
+    Leaderboard *leaderboard; // ÅÅĞĞ°ñ¶ÔÏó
+    int currentPage; // µ±Ç°Ò³Ãæ
+    int key = 0; // ÓÃ»§²Ù×÷
+    vector<IMAGE> images; // ´æ´¢Í¼Æ¬µÄÏòÁ¿
+    bool playBGM; // ÒôÀÖ²¥·Å×´Ì¬
+    int mascotoLocation; // ¼ªÏéÎïÎ»ÖÃ
+    int mascotoLocationFlag; // ¼ªÏéÎïÎ»ÖÃ±êÖ¾
+    int directKeyFlag; // ·½Ïò¼ü±êÖ¾
+    int pauseKeyFlag; // ÔİÍ£¼ü±êÖ¾
 public:
-	Game() : board(nullptr), player(nullptr), leaderboard(new Leaderboard), currentPage(PAGE_MAIN_MENU), key(0), playBGM(true), mascotoLocation(MASCOT_RIGHT), mascotoLocationFlag(0), directKeyFlag(1), pauseKeyFlag(1) {}
-
-	~Game() {
-		delete board;
-		delete player;
-		delete leaderboard;
-	}
-
-	void initGame() {
-		// è½½å…¥å›¾ç‰‡
-		int width = 16 * gridSize;
-		int height = 20 * gridSize;
-		images.clear();
-		IMAGE img;
-		loadimage(&img, "./picture/PAGE_EXIT.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MAIN_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MAIN_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_CREATGAME_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_CREATGAME_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MODE_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MODE_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_GAME1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_GAME2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_PAUSE_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_PAUSE_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_GAMEOVER1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_GAMEOVER2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SAVE_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SAVE_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_LEADERBOARD1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_LEADERBOARD2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SETTINGS_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SETTINGS_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_RULES1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_RULES2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MUSIC_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_MUSIC_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SIZE_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_SIZE_MENU2.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_KEY_MENU1.jpg", width, height);
-		images.push_back(img);
-		loadimage(&img, "./picture/PAGE_KEY_MENU2.jpg", width, height);
-		images.push_back(img);
-
-		// è½½å…¥æ’è¡Œæ¦œ
-		leaderboard->load();
-		leaderboard->sortPlayers();
-
-		// åˆå§‹åŒ–ç»˜å›¾çª—å£
-		initgraph(width, height);
-
-		// æ¸…ç©ºå±å¹•
-		setbkcolor(WHITE);
-		cleardevice();
-
-		// è®¾ç½®å­—ä½“æ ·å¼å’Œé¢œè‰²
-		settextstyle(gridSize, 0, _T("å¾®è½¯é›…é»‘"));
-		settextcolor(BLACK);
-		setbkmode(TRANSPARENT);
-
-		// éšæœºæ•°ç§å­
-		srand(std::time(0));
-	}
-
-	void showExit() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		putimage(0, 0, &images[0]);
-
-		EndBatchDraw();
-
-		Sleep(500);
-
-		exit(0);
-	}
-
-	void showMainMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[1]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[2]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showCreatGameMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[3]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[4]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showModeMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[5]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[6]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showGame() {
-		// åˆ¤æ–­æ˜¯å¦å­˜åœ¨å½“å‰æ–¹å—
-		if (board->getCurrentBlock() == nullptr) {
-			board->generateBlock();
-		}
-
-		while (currentPage == PAGE_GAME) {
-			//æ”¹å˜å‰ç¥¥ç‰©çŠ¶æ€
-			mascotoLocation = -mascotoLocation;
-
-			// å¤„ç†ç”¨æˆ·æŒ‰é”®
-			handleKeyGame();
-
-			// ç»˜åˆ¶æ£‹ç›˜
-			BeginBatchDraw();
-
-			// æ¸…ç©ºå±å¹•
-			cleardevice();
-
-			// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-			switch (mascotoLocation) {
-				case MASCOT_RIGHT:
-					putimage(0, 0, &images[7]);
-					break;
-				case MASCOT_LEFT:
-					putimage(0, 0, &images[8]);
-					break;
-			}
-
-			// ç»˜åˆ¶æ£‹ç›˜
-			board->draw();
-
-			EndBatchDraw();
-
-			// æ›´æ–°æ£‹ç›˜
-			board->update();
-
-			// å»¶æ—¶
-			if (_kbhit()) {
-				Sleep(100);
-			} else {
-				Sleep(player->getGameMode());
-			}
-			if (board->isGameOver()) {
-				currentPage = PAGE_GAMEOVER;
-			}
-		}
-	}
-
-	void showPauseMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[9]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[10]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showGameOver() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[11]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[12]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showSaveMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[13]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[14]);
-				break;
-		}
-
-		// è·å–æ‰€æœ‰å­˜æ¡£æ–‡ä»¶
-		vector<string> saveFiles = getSaveFiles();
-
-		// æ˜¾ç¤ºæ‰€æœ‰å­˜æ¡£æ–‡ä»¶
-		int y = 7 * gridSize;
-		for (int i = 0; i < saveFiles.size(); i++) {
-			// æ‰“å¼€å­˜æ¡£æ–‡ä»¶
-			ifstream file("save/" + saveFiles[i]);
-			if (!file.is_open()) {
-				continue;
-			}
-
-			// è¯»å–ä¿å­˜æ—¶é—´
-			int year, month, day, hour, minute, second;
-			file >> year >> month >> day >> hour >> minute >> second;
-
-			// è¯»å–ç©å®¶ä¿¡æ¯
-			string playerName;
-			int score;
-			file >> playerName;
-			file >> score;
-
-			// è¯»å–æ¸¸æˆéš¾åº¦
-			int gameMode;
-			file >> gameMode;
-
-			// å…³é—­æ–‡ä»¶
-			file.close();
-
-			// ç»˜åˆ¶å­˜æ¡£ä¿¡æ¯
-			stringstream ss;
-			ss << i + 1 << ". " << playerName << " " << score << " ";
-			string gameModeText;
-			if (gameMode == MODE_EASY) {
-				gameModeText = "ç®€å•";
-			} else if (gameMode == MODE_NORMAL) {
-				gameModeText = "ä¸€èˆ¬";
-			} else if (gameMode == MODE_HARD) {
-				gameModeText = "å›°éš¾";
-			}
-			ss << gameModeText << " ";
-			ss << year << "-" << month << "-" << day << " " << hour << ":" << minute << ":" << second;
-			string text = ss.str();
-			outtextxy(2 * gridSize, y, text.c_str());
-			y += gridSize;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showLeaderboard() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[15]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[16]);
-				break;
-		}
-
-		// æ˜¾ç¤ºç®€å•æ¨¡å¼æ’è¡Œæ¦œ
-		outtextxy(0, 4 * gridSize, _T("ç®€å•æ¨¡å¼"));
-		leaderboard->show(MODE_EASY, 0, 5 * gridSize);
-
-		// æ˜¾ç¤ºä¸€èˆ¬æ¨¡å¼æ’è¡Œæ¦œ
-		outtextxy(12 * gridSize, 4 * gridSize, _T("ä¸€èˆ¬æ¨¡å¼"));
-		leaderboard->show(MODE_NORMAL, 11 * gridSize, 5 * gridSize);
-
-		// æ˜¾ç¤ºå›°éš¾æ¨¡å¼æ’è¡Œæ¦œ
-		outtextxy(6 * gridSize, 4 * gridSize, _T("å›°éš¾æ¨¡å¼"));
-		leaderboard->show(MODE_HARD, 5 * gridSize + halfgridSize, 5 * gridSize);
-
-		EndBatchDraw();
-	}
-
-	void showSettingMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[17]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[18]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showRules() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[19]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[20]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showMusicMenu() {
-		BeginBatchDraw();
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[21]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[22]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showSizeMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[23]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[24]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	void showKeyMenu() {
-		BeginBatchDraw();
-
-		// æ¸…ç©ºå±å¹•
-		cleardevice();
-
-		// ç»˜åˆ¶ä¸»èœå•èƒŒæ™¯å›¾ç‰‡
-		switch (mascotoLocation) {
-			case MASCOT_RIGHT:
-				putimage(0, 0, &images[25]);
-				break;
-			case MASCOT_LEFT:
-				putimage(0, 0, &images[26]);
-				break;
-		}
-
-		EndBatchDraw();
-	}
-
-	char handleMouseClick() {
-		MOUSEMSG msg; // å®šä¹‰é¼ æ ‡æ¶ˆæ¯å˜é‡
-		while (MouseHit()) { // å¾ªç¯ç›´åˆ°å¤„ç†å®Œæ‰€æœ‰é¼ æ ‡æ¶ˆæ¯
-			msg = GetMouseMsg(); // è·å–é¼ æ ‡æ¶ˆæ¯
-			if (msg.uMsg == WM_LBUTTONDOWN) { // å¦‚æœæ˜¯å·¦é”®æŒ‰ä¸‹
-				int x = msg.x; // è·å–é¼ æ ‡ç‚¹å‡»çš„xåæ ‡
-				int y = msg.y; // è·å–é¼ æ ‡ç‚¹å‡»çš„yåæ ‡
-				// æ ¹æ®ç‚¹å‡»ä½ç½®è¿”å›ä¸åŒçš„å­—ç¬¦
-				if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 5 * gridSize && y < 7 * gridSize) {
-					return '1';
-				} else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 7 * gridSize + halfgridSize && y < 9 * gridSize + halfgridSize) {
-					return '2';
-				} else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 10 * gridSize && y < 12 * gridSize) {
-					return '3';
-				} else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 12 * gridSize + halfgridSize && y < 14 * gridSize + halfgridSize) {
-					return '4';
-				} else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 15 * gridSize && y < 17 * gridSize) {
-					return '5';
-				} else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 17 * gridSize + halfgridSize && y < 19 * gridSize + halfgridSize) {
-					return 'd';
-				} else if (x > 14 * gridSize + halfgridSize && x < 16 * gridSize + halfgridSize && y > 0 && y < gridSize) {
-					return KEY_ESC;
-				}
-			}
-		}
-		return 0; // å¦‚æœæ²¡æœ‰ç‚¹å‡»äº‹ä»¶ï¼Œåˆ™è¿”å›0
-	}
-	
-
-	void handleKeyMainMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // å¼€å§‹æ–°æ¸¸æˆ
-				currentPage = PAGE_CREATGAME_MENU;
-				break;
-			case '2': // è¯»å–å­˜æ¡£
-				currentPage = PAGE_SAVE_MENU;
-				break;
-			case '3': // æ’è¡Œæ¦œ
-				currentPage = PAGE_LEADERBOARD;
-				break;
-			case '4': // æ¸¸æˆè§„åˆ™
-				currentPage = PAGE_RULES;
-				break;
-			case '5': // è®¾ç½®
-				currentPage = PAGE_SETTINGS_MENU;
-				break;
-			case KEY_ESC: // é€€å‡ºæ¸¸æˆ
-				currentPage = PAGE_EXIT;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handlekeyCreatGameMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '2': {// å¼€å§‹æ–°æ¸¸æˆ
-				char input[20];
-				InputBox(input, 20, "è¯·è¾“å…¥æ–°ç©å®¶åç§°");
-				string playerName(input);
-				player = new Player(playerName);
-				board = new Board(0, playerName);
-				currentPage = PAGE_MODE_MENU;
-			}
-			break;
-			case KEY_ESC:// é€€å‡ºæ¸¸æˆ
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeyModeMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // ç®€å•æ¨¡å¼
-				player->setGameMode(MODE_EASY);
-				currentPage = PAGE_GAME;
-				break;
-			case '2': // ä¸€èˆ¬æ¨¡å¼
-				player->setGameMode(MODE_NORMAL);
-				currentPage = PAGE_GAME;
-				break;
-			case '3': // å›°éš¾æ¨¡å¼
-				player->setGameMode(MODE_HARD);
-				currentPage = PAGE_GAME;
-				break;
-			case KEY_ESC:// é€€å‡ºåˆ°åˆ›å»ºæ¸¸æˆèœå•
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeyGame() {
-		if (_kbhit()) {
-			key = _getch();
-			board->handleKey(key, directKeyFlag);
-			switch (pauseKeyFlag) {
-				case 1:
-					switch (key) {
-						case 'p': // æš‚åœæ¸¸æˆ
-							currentPage = PAGE_PAUSE_MENU;
-							break;
-					}
-					break;
-				case -1:
-					switch (key) {
-						case ' ': // æš‚åœæ¸¸æˆ
-							currentPage = PAGE_PAUSE_MENU;
-							break;
-					}
-					break;
-				default:
-					break;
-			}
-		}
-	}
-
-	void handleKeyPauseMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // ç»§ç»­æ¸¸æˆ
-				currentPage = PAGE_GAME;
-				break;
-			case '2': { // ä¿å­˜æ¸¸æˆ
-				// è·å–æ‰€æœ‰å­˜æ¡£æ–‡ä»¶
-				vector<string> saveFiles = getSaveFiles();
-
-				// å¦‚æœå­˜æ¡£æ•°é‡è¶…è¿‡äº† 9 ä¸ªï¼Œåˆ™ä¸å†ä¿å­˜æ–°çš„å­˜æ¡£ï¼Œå¹¶æ˜¾ç¤ºæç¤ºä¿¡æ¯
-				if (saveFiles.size() >= 9) {
-					outtextxy(6 * gridSize, 4 * gridSize, "å­˜æ¡£å·²æ»¡");
-					Sleep(1000);
-					return;
-				} else {
-					saveGame();
-					currentPage = PAGE_SAVE_MENU;
-				}
-			}
-			break;
-			case '3': // ç»“æŸæ¸¸æˆ
-				currentPage = PAGE_GAMEOVER;
-				break;
-		}
-	}
-
-	void handleKeyGameOver() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '2': // è¿”å›ä¸»èœå•
-				currentPage = PAGE_MAIN_MENU;
-				player->setScore(board->getScore());
-				leaderboard->addPlayer(player);
-				leaderboard->sortPlayers();
-				leaderboard->save();
-				cout << board->getNextBlock();
-				deleteGame();
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeySaveMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case KEY_ESC: // è¿”å›ä¸»èœå•
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			case 'd': {// åˆ é™¤å­˜æ¡£
-				char input[20];
-				InputBox(input, 20, "è¯·è¾“å…¥è¦åˆ é™¤çš„å­˜æ¡£ç¼–å·");
-				int index = atoi(input) - 1;
-				vector<string> saveFiles = getSaveFiles();
-				if (index >= 0 && index < saveFiles.size()) {
-					deleteSave(index);
-					outtextxy(2 * gridSize, 6 * gridSize, "åˆ é™¤æˆåŠŸ");
-					Sleep(1000);
-				} else {
-					outtextxy(2 * gridSize, 6 * gridSize, "æ— è¯¥å­˜æ¡£");
-					Sleep(1000);
-				}
-			}
-			break;
-			default:
-				if (key >= '0' && key <= '9') {
-					int index = key - '0' - 1;
-					vector<string> saveFiles = getSaveFiles();
-					if (index < saveFiles.size()) {
-						loadSave(saveFiles[index]);
-						currentPage = PAGE_GAME;
-					} else {
-						outtextxy(2 * gridSize, 6 * gridSize, "æ— è¯¥å­˜æ¡£");
-						Sleep(1000);
-					}
-				}
-				break;
-		}
-	}
-
-	void handleKeyLeaderboard() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case KEY_ESC: // è¿”å›ä¸»èœå•
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeySettingMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // è¿›å…¥éŸ³ä¹èœå•
-				currentPage = PAGE_MUSIC_MENU;
-				break;
-			case '2': // è¿›å…¥å¤§å°èœå•
-				currentPage = PAGE_SIZE_MENU;
-				break;
-			case '3': // è¿›å…¥æŒ‰é”®èœå•
-				currentPage = PAGE_KEY_MENU;
-				break;
-			case KEY_ESC:
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeyRules() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case KEY_ESC: // è¿”å›ä¸»èœå•
-				currentPage = PAGE_MAIN_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeyMusicMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // æ‰“å¼€/å…³é—­éŸ³ä¹
-				playBGM = !playBGM;
-				if (playBGM) {
-					mciSendString("play bgm repeat", nullptr, 0, nullptr);
-				} else {
-					mciSendString("stop bgm", nullptr, 0, nullptr);
-				}
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case '2': // åˆ‡æ¢åˆ°ç¬¬ä¸€é¦–éŸ³ä¹
-				mciSendString("close bgm", nullptr, 0, nullptr);
-				mciSendString("open music/music1.mp3 alias bgm", nullptr, 0, nullptr);
-				if (playBGM) {
-					mciSendString("play bgm repeat", nullptr, 0, nullptr);
-				}
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case '3': // åˆ‡æ¢åˆ°ç¬¬äºŒé¦–éŸ³ä¹
-				mciSendString("close bgm", nullptr, 0, nullptr);
-				mciSendString("open music/music2.mp3 alias bgm", nullptr, 0, nullptr);
-				if (playBGM) {
-					mciSendString("play bgm repeat", nullptr, 0, nullptr);
-				}
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case '4': // åˆ‡æ¢åˆ°ç¬¬ä¸‰é¦–éŸ³ä¹
-				mciSendString("close bgm", nullptr, 0, nullptr);
-				mciSendString("open music/music3.mp3 alias bgm", nullptr, 0, nullptr);
-				if (playBGM) {
-					mciSendString("play bgm repeat", nullptr, 0, nullptr);
-				}
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case KEY_ESC: // è¿”å›è®¾ç½®èœå•
-				currentPage = PAGE_SETTINGS_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeySizeMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // å°ç•Œé¢
-				gridSize = SMALL_SIZE;
-				initGame();
-				break;
-			case '2': // ä¸­ç•Œé¢
-				gridSize = MEDIUM_SIZE;
-				initGame();
-				break;
-			case '3': // å¤§ç•Œé¢
-				gridSize = LARGE_SIZE;
-				initGame();
-				break;
-			case KEY_ESC: // è¿”å›è®¾ç½®èœå•
-				currentPage = PAGE_SETTINGS_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void handleKeyKeyMenu() {
-		if (MouseHit()) {
-			key = handleMouseClick();
-		}
-		if (_kbhit()) {
-			key = _getch();
-		}
-		switch (key) {
-			case '1': // åˆ‡æ¢æ–¹å‘é”®
-				directKeyFlag = -directKeyFlag;
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case '2': // åˆ‡æ¢æš‚åœé”®
-				pauseKeyFlag = -pauseKeyFlag;
-				outtextxy(6 * gridSize, 4 * gridSize, "ä¿®æ”¹æˆåŠŸ");
-				Sleep(1000);
-				break;
-			case KEY_ESC: // è¿”å›è®¾ç½®èœå•
-				currentPage = PAGE_SETTINGS_MENU;
-				break;
-			default:
-				break;
-		}
-	}
-
-	void updateMascotoLcation() {
-		mascotoLocationFlag++;
-		if (mascotoLocationFlag % 600 == 0) {
-			mascotoLocation = -mascotoLocation;
-		}
-	}
-
-	void saveGame() {
-		// ç”Ÿæˆæ–‡ä»¶å
-		string filename = "save/" + player->getName() + ".txt";
-
-		// æ‰“å¼€æ–‡ä»¶
-		ofstream file(filename);
-		if (!file.is_open()) {
-			cout << "æ— æ³•æ‰“å¼€æ–‡ä»¶" << endl;
-			return;
-		}
-
-		// è·å–å½“å‰æ—¶é—´
-		time_t t = time(nullptr);
-		tm* currentTime = localtime(&t);
-
-		// ä¿å­˜å½“å‰æ—¶é—´
-		file << currentTime->tm_year + 1900 << " ";
-		file << currentTime->tm_mon + 1 << " ";
-		file << currentTime->tm_mday << " ";
-		file << currentTime->tm_hour << " ";
-		file << currentTime->tm_min << " ";
-		file << currentTime->tm_sec << endl;
-
-		// ä¿å­˜ç©å®¶ä¿¡æ¯
-		file << player->getName() << endl;
-		file << board->getScore() << endl;
-
-		// ä¿å­˜æ¸¸æˆéš¾åº¦
-		file << player->getGameMode() << endl;
-
-		// ä¿å­˜æ£‹ç›˜ä¿¡æ¯
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 10; j++) {
-				file << board->get(i, j) << " ";
-			}
-			file << endl;
-		}
-
-		// ä¿å­˜å½“å‰æ–¹å—ä¿¡æ¯
-		Block* currentBlock = board->getCurrentBlock();
-		if (currentBlock != nullptr) {
-			file << currentBlock->getShape() << " ";
-			file << currentBlock->getColor() << " ";
-			file << currentBlock->getX() << " ";
-			file << currentBlock->getY() << " ";
-			file << currentBlock->getState() << endl;
-		} else {
-			file << -1 << endl;
-		}
-
-		// ä¿å­˜ä¸‹ä¸€ä¸ªæ–¹å—ä¿¡æ¯
-		Block* nextBlock = board->getNextBlock();
-		if (nextBlock != nullptr) {
-			file << nextBlock->getShape() << " ";
-			file << nextBlock->getColor() << " ";
-			file << nextBlock->getX() << " ";
-			file << nextBlock->getY() << " ";
-			file << nextBlock->getState() << endl;
-		} else {
-			file << -1 << endl;
-		}
-
-		// å…³é—­æ–‡ä»¶
-		file.close();
-	}
-
-	void loadSave(const string& filename) {
-		ifstream file("save/" + filename);
-		if (!file.is_open()) {
-			cout << "æ— æ³•æ‰“å¼€æ–‡ä»¶" << endl;
-			return;
-		}
-
-		// è¯»å–ä¿å­˜æ—¶é—´
-		int year, month, day, hour, minute, second;
-		file >> year >> month >> day >> hour >> minute >> second;
-
-		// è¯»å–ç©å®¶ä¿¡æ¯
-		string playerName;
-		int score;
-		file >> playerName;
-		file >> score;
-
-		// è¯»å–æ¸¸æˆéš¾åº¦
-		int gameMode;
-		file >> gameMode;
-
-		// åˆ›å»ºç©å®¶å¯¹è±¡
-		player = new Player(playerName, score, gameMode);
-
-		// åˆ›å»ºæ£‹ç›˜å¯¹è±¡
-		board = new Board(score, playerName);
-
-		// è¯»å–æ£‹ç›˜ä¿¡æ¯
-		for (int i = 0; i < board->getHeight(); i++) {
-			for (int j = 0; j < board->getWidth(); j++) {
-				int value;
-				file >> value;
-				board->set(i, j, value);
-			}
-		}
-
-		// è¯»å–å½“å‰æ–¹å—ä¿¡æ¯
-		int shape, color, x, y, state;
-		file >> shape;
-		if (shape != -1) {
-			file >> color >> x >> y >> state;
-			switch (shape) {
-				case SHAPE_O:
-					board->setCurrentBlock(new OBlock(x, y, color, state));
-					break;
-				case SHAPE_I:
-					board->setCurrentBlock(new IBlock(x, y, color, state));
-					break;
-				case SHAPE_L:
-					board->setCurrentBlock(new LBlock(x, y, color, state));
-					break;
-				case SHAPE_J:
-					board->setCurrentBlock(new JBlock(x, y, color, state));
-					break;
-				case SHAPE_S:
-					board->setCurrentBlock(new SBlock(x, y, color, state));
-					break;
-				case SHAPE_Z:
-					board->setCurrentBlock(new ZBlock(x, y, color, state));
-					break;
-				case SHAPE_T:
-					board->setCurrentBlock(new TBlock(x, y, color, state));
-					break;
-				default:
-					break;
-			}
-		}
-
-		// è¯»å–ä¸‹ä¸€ä¸ªæ–¹å—ä¿¡æ¯
-		file >> shape;
-		if (shape != -1) {
-			file >> color >> x >> y >> state;
-			switch (shape) {
-				case SHAPE_O:
-					board->setNextBlock(new OBlock(x, y, color, state));
-					break;
-				case SHAPE_I:
-					board->setNextBlock(new IBlock(x, y, color, state));
-					break;
-				case SHAPE_L:
-					board->setNextBlock(new LBlock(x, y, color, state));
-					break;
-				case SHAPE_J:
-					board->setNextBlock(new JBlock(x, y, color, state));
-					break;
-				case SHAPE_S:
-					board->setNextBlock(new SBlock(x, y, color, state));
-					break;
-				case SHAPE_Z:
-					board->setNextBlock(new ZBlock(x, y, color, state));
-					break;
-				case SHAPE_T:
-					board->setNextBlock(new TBlock(x, y, color, state));
-					break;
-				default:
-					break;
-			}
-		}
-
-		// å…³é—­æ–‡ä»¶
-		file.close();
-	}
-
-	void deleteSave(int index) {
-		// è·å–æ‰€æœ‰å­˜æ¡£æ–‡ä»¶
-		vector<string> saveFiles = getSaveFiles();
-
-		// åˆ é™¤æŒ‡å®šçš„å­˜æ¡£æ–‡ä»¶
-		string filePath = "save/" + saveFiles[index];
-		remove(filePath.c_str());
-	}
-
-	vector<string> getSaveFiles() {
-		vector<string> saveFiles;
-		for (const auto& entry : filesystem::directory_iterator("save")) {
-			if (entry.path().extension() == ".txt") {
-				saveFiles.push_back(entry.path().filename().string());
-			}
-		}
-
-		vector<tuple<string, int, string>> saveInfos;
-		for (const string& saveFile : saveFiles) {
-			ifstream file("save/" + saveFile);
-			if (!file.is_open()) {
-				continue;
-			}
-
-			int year, month, day, hour, minute, second;
-			file >> year >> month >> day >> hour >> minute >> second;
-
-			string playerName;
-			int score;
-			file >> playerName;
-			file >> score;
-
-			stringstream ss;
-			ss << year << "-" << month << "-" << day << " " << hour << ":" << minute << ":" << second;
-			string saveTime = ss.str();
-
-			saveInfos.push_back(make_tuple(saveFile, score, saveTime));
-
-			file.close();
-		}
-
-		sort(saveInfos.begin(), saveInfos.end(), [](const tuple<string, int, string>& a, const tuple<string, int, string>& b) {
-			return get<2>(a) > get<2>(b);
-		});
-
-		vector<string> result;
-		for (const auto& saveInfo : saveInfos) {
-			result.push_back(get<0>(saveInfo));
-		}
-
-		return result;
-	}
-
-	void deleteGame() {
-		delete board;
-		delete player;
-	}
-
-	void run() {
-		// åˆå§‹åŒ–æ¸¸æˆ
-		initGame();
-		// æ’­æ”¾èƒŒæ™¯éŸ³ä¹
-		mciSendString("open music/music1.mp3 alias bgm", nullptr, 0, nullptr);
-		mciSendString("play bgm repeat", nullptr, 0, nullptr);
-		while (true) {
-			updateMascotoLcation();
-			key = 0;// é‡ç½®ç”¨æˆ·è¾“å…¥
-			switch (currentPage) {
-				case PAGE_MAIN_MENU:
-					showMainMenu();
-					handleKeyMainMenu();
-					break;
-				case PAGE_CREATGAME_MENU:
-					showCreatGameMenu();
-					handlekeyCreatGameMenu();
-					break;
-				case PAGE_GAME:
-					showGame();
-					break;
-				case PAGE_MODE_MENU:
-					showModeMenu();
-					handleKeyModeMenu();
-					break;
-				case PAGE_PAUSE_MENU:
-					showPauseMenu();
-					handleKeyPauseMenu();
-					break;
-				case PAGE_GAMEOVER:
-					showGameOver();
-					handleKeyGameOver();
-					break;
-				case PAGE_SAVE_MENU:
-					showSaveMenu();
-					handleKeySaveMenu();
-					break;
-				case PAGE_LEADERBOARD:
-					showLeaderboard();
-					handleKeyLeaderboard();
-					break;
-				case PAGE_SETTINGS_MENU:
-					showSettingMenu();
-					handleKeySettingMenu();
-					break;
-				case PAGE_RULES:
-					showRules();
-					handleKeyRules();
-					break;
-				case PAGE_MUSIC_MENU:
-					showMusicMenu();
-					handleKeyMusicMenu();
-					break;
-				case PAGE_SIZE_MENU:
-					showSizeMenu();
-					handleKeySizeMenu();
-					break;
-				case PAGE_KEY_MENU:
-					showKeyMenu();
-					handleKeyKeyMenu();
-					break;
-				case PAGE_EXIT:
-					showExit();
-				default:
-					break;
-			}
-		}
-	}
-
+    Game() : board(nullptr), player(nullptr), leaderboard(new Leaderboard), currentPage(PAGE_MAIN_MENU), key(0),
+             playBGM(true), mascotoLocation(MASCOT_RIGHT), mascotoLocationFlag(0), directKeyFlag(1), pauseKeyFlag(1) {
+    }
+
+    ~Game() {
+        delete board;
+        delete player;
+        delete leaderboard;
+    }
+
+    void initGame() {
+        // ÔØÈëÍ¼Æ¬
+        int width = 16 * gridSize;
+        int height = 20 * gridSize;
+        images.clear();
+        IMAGE img;
+        loadimage(&img, "./picture/PAGE_EXIT.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MAIN_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MAIN_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_CREATGAME_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_CREATGAME_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MODE_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MODE_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_GAME1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_GAME2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_PAUSE_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_PAUSE_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_GAMEOVER1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_GAMEOVER2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SAVE_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SAVE_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_LEADERBOARD1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_LEADERBOARD2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SETTINGS_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SETTINGS_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_RULES1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_RULES2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MUSIC_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_MUSIC_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SIZE_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_SIZE_MENU2.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_KEY_MENU1.jpg", width, height);
+        images.push_back(img);
+        loadimage(&img, "./picture/PAGE_KEY_MENU2.jpg", width, height);
+        images.push_back(img);
+
+        // ÔØÈëÅÅĞĞ°ñ
+        leaderboard->load();
+        leaderboard->sortPlayers();
+
+        // ³õÊ¼»¯»æÍ¼´°¿Ú
+        initgraph(width, height,EX_SHOWCONSOLE);
+
+        // Çå¿ÕÆÁÄ»
+        setbkcolor(WHITE);
+        cleardevice();
+
+        // ÉèÖÃ×ÖÌåÑùÊ½ºÍÑÕÉ«
+        settextstyle(gridSize, 0, _T("Î¢ÈíÑÅºÚ"));
+        settextcolor(BLACK);
+        setbkmode(TRANSPARENT);
+
+        // Ëæ»úÊıÖÖ×Ó
+        srand(time(0));
+    }
+
+    void showExit() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        putimage(0, 0, &images[0]);
+
+        EndBatchDraw();
+
+        Sleep(500);
+
+        exit(0);
+    }
+
+    void showMainMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[1]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[2]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showCreatGameMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[3]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[4]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showModeMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[5]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[6]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showGame() {
+        // ÅĞ¶ÏÊÇ·ñ´æÔÚµ±Ç°·½¿é
+        if (board->getCurrentBlock() == nullptr) {
+            board->generateBlock();
+        }
+
+        while (currentPage == PAGE_GAME) {
+            //¸Ä±ä¼ªÏéÎï×´Ì¬
+            mascotoLocation = -mascotoLocation;
+
+            // ´¦ÀíÓÃ»§°´¼ü
+            handleKeyGame();
+
+            // »æÖÆÓÎÏ·
+            BeginBatchDraw();
+
+            // Çå¿ÕÆÁÄ»
+            cleardevice();
+
+            // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+            switch (mascotoLocation) {
+                case MASCOT_RIGHT:
+                    putimage(0, 0, &images[7]);
+                    break;
+                case MASCOT_LEFT:
+                    putimage(0, 0, &images[8]);
+                    break;
+            }
+
+            // »æÖÆÆåÅÌ
+            board->draw();
+
+            EndBatchDraw();
+
+            // ¸üĞÂÆåÅÌ
+            board->update();
+
+            // ÑÓÊ±
+            if (_kbhit()) {
+                Sleep(100);
+            } else {
+                Sleep(player->getGameMode());
+            }
+            if (board->isGameOver()) {
+                currentPage = PAGE_GAMEOVER;
+            }
+        }
+    }
+
+    void showPauseMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[9]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[10]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showGameOver() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[11]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[12]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showSaveMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[13]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[14]);
+                break;
+        }
+
+        // »ñÈ¡ËùÓĞ´æµµÎÄ¼ş
+        vector<string> saveFiles = getSaveFiles();
+
+        // ÏÔÊ¾ËùÓĞ´æµµÎÄ¼ş
+        int y = 7 * gridSize;
+        for (int i = 0; i < saveFiles.size(); i++) {
+            // ´ò¿ª´æµµÎÄ¼ş
+            ifstream file("save/" + saveFiles[i]);
+            if (!file.is_open()) {
+                continue;
+            }
+
+            // ¶ÁÈ¡±£´æÊ±¼ä
+            int year, month, day, hour, minute, second;
+            file >> year >> month >> day >> hour >> minute >> second;
+
+            // ¶ÁÈ¡Íæ¼ÒĞÅÏ¢
+            string playerName;
+            int score;
+            file >> playerName;
+            file >> score;
+
+            // ¶ÁÈ¡ÓÎÏ·ÄÑ¶È
+            int gameMode;
+            file >> gameMode;
+
+            // ¹Ø±ÕÎÄ¼ş
+            file.close();
+
+            // »æÖÆ´æµµĞÅÏ¢
+            stringstream ss;
+            ss << i + 1 << ". " << playerName << " " << score << " ";
+            string gameModeText;
+            if (gameMode == MODE_EASY) {
+                gameModeText = "¼òµ¥";
+            } else if (gameMode == MODE_NORMAL) {
+                gameModeText = "Ò»°ã";
+            } else if (gameMode == MODE_HARD) {
+                gameModeText = "À§ÄÑ";
+            }
+            ss << gameModeText << " ";
+            ss << year << "-" << month << "-" << day << " " << hour << ":" << minute << ":" << second;
+            string text = ss.str();
+            outtextxy(2 * gridSize, y, text.c_str());
+            y += gridSize;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showLeaderboard() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[15]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[16]);
+                break;
+        }
+
+        // ÏÔÊ¾¼òµ¥Ä£Ê½ÅÅĞĞ°ñ
+        outtextxy(0, 4 * gridSize, _T("¼òµ¥Ä£Ê½"));
+        leaderboard->show(MODE_EASY, 0, 5 * gridSize);
+
+        // ÏÔÊ¾Ò»°ãÄ£Ê½ÅÅĞĞ°ñ
+        outtextxy(12 * gridSize, 4 * gridSize, _T("Ò»°ãÄ£Ê½"));
+        leaderboard->show(MODE_NORMAL, 11 * gridSize, 5 * gridSize);
+
+        // ÏÔÊ¾À§ÄÑÄ£Ê½ÅÅĞĞ°ñ
+        outtextxy(6 * gridSize, 4 * gridSize, _T("À§ÄÑÄ£Ê½"));
+        leaderboard->show(MODE_HARD, 5 * gridSize + halfgridSize, 5 * gridSize);
+
+        EndBatchDraw();
+    }
+
+    void showSettingMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[17]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[18]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showRules() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[19]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[20]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showMusicMenu() {
+        BeginBatchDraw();
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[21]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[22]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showSizeMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[23]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[24]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    void showKeyMenu() {
+        BeginBatchDraw();
+
+        // Çå¿ÕÆÁÄ»
+        cleardevice();
+
+        // »æÖÆÖ÷²Ëµ¥±³¾°Í¼Æ¬
+        switch (mascotoLocation) {
+            case MASCOT_RIGHT:
+                putimage(0, 0, &images[25]);
+                break;
+            case MASCOT_LEFT:
+                putimage(0, 0, &images[26]);
+                break;
+        }
+
+        EndBatchDraw();
+    }
+
+    char handleMouseClick() {
+        MOUSEMSG msg = GetMouseMsg();
+        if (msg.uMsg == WM_LBUTTONDOWN) {
+            int x = msg.x;
+            int y = msg.y;
+            if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 5 * gridSize && y < 7 *
+                gridSize) {
+                return '1';
+            } else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 7 * gridSize +
+                       halfgridSize && y < 9 * gridSize + halfgridSize) {
+                return '2';
+            } else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 10 * gridSize && y <
+                       12 * gridSize) {
+                return '3';
+            } else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 12 * gridSize +
+                       halfgridSize && y < 14 * gridSize + halfgridSize) {
+                return '4';
+            } else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 15 * gridSize && y <
+                       17 * gridSize) {
+                return '5';
+            } else if (x > 5 * gridSize + halfgridSize && x < 10 * gridSize + halfgridSize && y > 17 * gridSize +
+                       halfgridSize && y < 19 * gridSize + halfgridSize) {
+                return 'd';
+            } else if (x > 14 * gridSize + halfgridSize && x < 16 * gridSize + halfgridSize && y > 0 && y < gridSize) {
+                return KEY_ESC;
+            }
+        }
+        return '\0'; //ĞŞ¸´bug
+    }
+
+    void handleKeyMainMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ¿ªÊ¼ĞÂÓÎÏ·
+                currentPage = PAGE_CREATGAME_MENU;
+                break;
+            case '2': // ¶ÁÈ¡´æµµ
+                currentPage = PAGE_SAVE_MENU;
+                break;
+            case '3': // ÅÅĞĞ°ñ
+                currentPage = PAGE_LEADERBOARD;
+                break;
+            case '4': // ÓÎÏ·¹æÔò
+                currentPage = PAGE_RULES;
+                break;
+            case '5': // ÉèÖÃ
+                currentPage = PAGE_SETTINGS_MENU;
+                break;
+            case KEY_ESC: // ÍË³öÓÎÏ·
+                currentPage = PAGE_EXIT;
+            default:
+                break;
+        }
+    }
+
+    void handlekeyCreatGameMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '2': {
+                // ¿ªÊ¼ĞÂÓÎÏ·
+                char input[20];
+                InputBox(input, 20, "ÇëÊäÈëĞÂÍæ¼ÒÃû³Æ");
+                string playerName(input);
+                player = new Player(playerName);
+                board = new Board(0, playerName);
+                currentPage = PAGE_MODE_MENU;
+            }
+            break;
+            case KEY_ESC: // ÍË³öÓÎÏ·
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeyModeMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ¼òµ¥Ä£Ê½
+                player->setGameMode(MODE_EASY);
+                currentPage = PAGE_GAME;
+                break;
+            case '2': // Ò»°ãÄ£Ê½
+                player->setGameMode(MODE_NORMAL);
+                currentPage = PAGE_GAME;
+                break;
+            case '3': // À§ÄÑÄ£Ê½
+                player->setGameMode(MODE_HARD);
+                currentPage = PAGE_GAME;
+                break;
+            case KEY_ESC: // ÍË³öµ½´´½¨ÓÎÏ·²Ëµ¥
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeyGame() {
+        if (_kbhit()) {
+            key = _getch();
+            board->handleKey(key, directKeyFlag);
+            switch (pauseKeyFlag) {
+                case 1:
+                    switch (key) {
+                        case 'p': // ÔİÍ£ÓÎÏ·
+                            currentPage = PAGE_PAUSE_MENU;
+                            break;
+                    }
+                    break;
+                case -1:
+                    switch (key) {
+                        case ' ': // ÔİÍ£ÓÎÏ·
+                            currentPage = PAGE_PAUSE_MENU;
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    void handleKeyPauseMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ¼ÌĞøÓÎÏ·
+                currentPage = PAGE_GAME;
+                break;
+            case '2': {
+                // ±£´æÓÎÏ·
+                // »ñÈ¡ËùÓĞ´æµµÎÄ¼ş
+                vector<string> saveFiles = getSaveFiles();
+
+                // Èç¹û´æµµÊıÁ¿³¬¹ıÁË 9 ¸ö£¬Ôò²»ÔÙ±£´æĞÂµÄ´æµµ£¬²¢ÏÔÊ¾ÌáÊ¾ĞÅÏ¢
+                if (saveFiles.size() >= 9) {
+                    outtextxy(6 * gridSize, 4 * gridSize, "´æµµÒÑÂú");
+                    Sleep(1000);
+                    return;
+                } else {
+                    saveGame();
+                    currentPage = PAGE_SAVE_MENU;
+                }
+            }
+            break;
+            case '3': // ½áÊøÓÎÏ·
+                currentPage = PAGE_GAMEOVER;
+                break;
+        }
+    }
+
+    void handleKeyGameOver() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '2': // ·µ»ØÖ÷²Ëµ¥
+                currentPage = PAGE_MAIN_MENU;
+                player->setScore(board->getScore());
+                leaderboard->addPlayer(player);
+                leaderboard->sortPlayers();
+                leaderboard->save();
+                deleteGame();
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeySaveMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case KEY_ESC: // ·µ»ØÖ÷²Ëµ¥
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            case 'd': {
+                // É¾³ı´æµµ
+                char input[20];
+                InputBox(input, 20, "ÇëÊäÈëÒªÉ¾³ıµÄ´æµµ±àºÅ");
+                int index = atoi(input) - 1;
+                vector<string> saveFiles = getSaveFiles();
+                if (index >= 0 && index < saveFiles.size()) {
+                    deleteSave(index);
+                    outtextxy(2 * gridSize, 6 * gridSize, "É¾³ı³É¹¦");
+                    Sleep(1000);
+                } else {
+                    outtextxy(2 * gridSize, 6 * gridSize, "ÎŞ¸Ã´æµµ");
+                    Sleep(1000);
+                }
+            }
+            break;
+            default:
+                if (key >= '0' && key <= '9') {
+                    int index = key - '0' - 1;
+                    vector<string> saveFiles = getSaveFiles();
+                    if (index < saveFiles.size()) {
+                        loadSave(saveFiles[index]);
+                        currentPage = PAGE_GAME;
+                    } else {
+                        outtextxy(2 * gridSize, 6 * gridSize, "ÎŞ¸Ã´æµµ");
+                        Sleep(1000);
+                    }
+                }
+                break;
+        }
+    }
+
+    void handleKeyLeaderboard() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case KEY_ESC: // ·µ»ØÖ÷²Ëµ¥
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeySettingMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ½øÈëÒôÀÖ²Ëµ¥
+                currentPage = PAGE_MUSIC_MENU;
+                break;
+            case '2': // ½øÈë´óĞ¡²Ëµ¥
+                currentPage = PAGE_SIZE_MENU;
+                break;
+            case '3': // ½øÈë°´¼ü²Ëµ¥
+                currentPage = PAGE_KEY_MENU;
+                break;
+            case KEY_ESC:
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeyRules() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case KEY_ESC: // ·µ»ØÖ÷²Ëµ¥
+                currentPage = PAGE_MAIN_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeyMusicMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ´ò¿ª/¹Ø±ÕÒôÀÖ
+                playBGM = !playBGM;
+                if (playBGM) {
+                    mciSendString("play bgm repeat", nullptr, 0, nullptr);
+                } else {
+                    mciSendString("stop bgm", nullptr, 0, nullptr);
+                }
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case '2': // ÇĞ»»µ½µÚÒ»Ê×ÒôÀÖ
+                mciSendString("close bgm", nullptr, 0, nullptr);
+                mciSendString("open music/music1.mp3 alias bgm", nullptr, 0, nullptr);
+                if (playBGM) {
+                    mciSendString("play bgm repeat", nullptr, 0, nullptr);
+                }
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case '3': // ÇĞ»»µ½µÚ¶şÊ×ÒôÀÖ
+                mciSendString("close bgm", nullptr, 0, nullptr);
+                mciSendString("open music/music2.mp3 alias bgm", nullptr, 0, nullptr);
+                if (playBGM) {
+                    mciSendString("play bgm repeat", nullptr, 0, nullptr);
+                }
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case '4': // ÇĞ»»µ½µÚÈıÊ×ÒôÀÖ
+                mciSendString("close bgm", nullptr, 0, nullptr);
+                mciSendString("open music/music3.mp3 alias bgm", nullptr, 0, nullptr);
+                if (playBGM) {
+                    mciSendString("play bgm repeat", nullptr, 0, nullptr);
+                }
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case KEY_ESC: // ·µ»ØÉèÖÃ²Ëµ¥
+                currentPage = PAGE_SETTINGS_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeySizeMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // Ğ¡½çÃæ
+                gridSize = SMALL_SIZE;
+                initGame();
+                break;
+            case '2': // ÖĞ½çÃæ
+                gridSize = MEDIUM_SIZE;
+                initGame();
+                break;
+            case '3': // ´ó½çÃæ
+                gridSize = LARGE_SIZE;
+                initGame();
+                break;
+            case KEY_ESC: // ·µ»ØÉèÖÃ²Ëµ¥
+                currentPage = PAGE_SETTINGS_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void handleKeyKeyMenu() {
+        if (MouseHit()) {
+            key = handleMouseClick();
+        }
+        if (_kbhit()) {
+            key = _getch();
+        }
+        switch (key) {
+            case '1': // ÇĞ»»·½Ïò¼ü
+                directKeyFlag = -directKeyFlag;
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case '2': // ÇĞ»»ÔİÍ£¼ü
+                pauseKeyFlag = -pauseKeyFlag;
+                outtextxy(6 * gridSize, 4 * gridSize, "ĞŞ¸Ä³É¹¦");
+                Sleep(1000);
+                break;
+            case KEY_ESC: // ·µ»ØÉèÖÃ²Ëµ¥
+                currentPage = PAGE_SETTINGS_MENU;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void updateMascotoLcation() {
+        mascotoLocationFlag++;
+        if (mascotoLocationFlag % 600 == 0) {
+            mascotoLocation = -mascotoLocation;
+        }
+    }
+
+    void saveGame() {
+        // Éú³ÉÎÄ¼şÃû
+        string filename = "save/" + player->getName() + ".txt";
+
+        // ´ò¿ªÎÄ¼ş
+        ofstream file(filename);
+        if (!file.is_open()) {
+            cout << "ÎŞ·¨´ò¿ªÎÄ¼ş" << endl;
+            return;
+        }
+
+        // »ñÈ¡µ±Ç°Ê±¼ä
+        time_t t = time(nullptr);
+        tm *currentTime = localtime(&t);
+
+        // ±£´æµ±Ç°Ê±¼ä
+        file << currentTime->tm_year + 1900 << " ";
+        file << currentTime->tm_mon + 1 << " ";
+        file << currentTime->tm_mday << " ";
+        file << currentTime->tm_hour << " ";
+        file << currentTime->tm_min << " ";
+        file << currentTime->tm_sec << endl;
+
+        // ±£´æÍæ¼ÒĞÅÏ¢
+        file << player->getName() << endl;
+        file << board->getScore() << endl;
+
+        // ±£´æÓÎÏ·ÄÑ¶È
+        file << player->getGameMode() << endl;
+
+        // ±£´æÆåÅÌĞÅÏ¢
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 10; j++) {
+                file << board->get(i, j) << " ";
+            }
+            file << endl;
+        }
+
+        // ±£´æµ±Ç°·½¿éĞÅÏ¢
+        Block *currentBlock = board->getCurrentBlock();
+        if (currentBlock != nullptr) {
+            file << currentBlock->getShape() << " ";
+            file << currentBlock->getColor() << " ";
+            file << currentBlock->getX() << " ";
+            file << currentBlock->getY() << " ";
+            file << currentBlock->getState() << endl;
+        } else {
+            file << -1 << endl;
+        }
+
+        // ±£´æÏÂÒ»¸ö·½¿éĞÅÏ¢
+        Block *nextBlock = board->getNextBlock();
+        if (nextBlock != nullptr) {
+            file << nextBlock->getShape() << " ";
+            file << nextBlock->getColor() << " ";
+            file << nextBlock->getX() << " ";
+            file << nextBlock->getY() << " ";
+            file << nextBlock->getState() << endl;
+        } else {
+            file << -1 << endl;
+        }
+
+        // ¹Ø±ÕÎÄ¼ş
+        file.close();
+    }
+
+    void loadSave(const string &filename) {
+        ifstream file("save/" + filename);
+        if (!file.is_open()) {
+            cout << "ÎŞ·¨´ò¿ªÎÄ¼ş" << endl;
+            return;
+        }
+
+        // ¶ÁÈ¡±£´æÊ±¼ä
+        int year, month, day, hour, minute, second;
+        file >> year >> month >> day >> hour >> minute >> second;
+
+        // ¶ÁÈ¡Íæ¼ÒĞÅÏ¢
+        string playerName;
+        int score;
+        file >> playerName;
+        file >> score;
+
+        // ¶ÁÈ¡ÓÎÏ·ÄÑ¶È
+        int gameMode;
+        file >> gameMode;
+
+        // ´´½¨Íæ¼Ò¶ÔÏó
+        player = new Player(playerName, score, gameMode);
+
+        // ´´½¨ÆåÅÌ¶ÔÏó
+        board = new Board(score, playerName);
+
+        // ¶ÁÈ¡ÆåÅÌĞÅÏ¢
+        for (int i = 0; i < board->getHeight(); i++) {
+            for (int j = 0; j < board->getWidth(); j++) {
+                int value;
+                file >> value;
+                board->set(i, j, value);
+            }
+        }
+
+        // ¶ÁÈ¡µ±Ç°·½¿éĞÅÏ¢
+        int shape, color, x, y, state;
+        file >> shape;
+        if (shape != -1) {
+            file >> color >> x >> y >> state;
+            switch (shape) {
+                case SHAPE_O:
+                    board->setCurrentBlock(new OBlock(x, y, color, state));
+                    break;
+                case SHAPE_I:
+                    board->setCurrentBlock(new IBlock(x, y, color, state));
+                    break;
+                case SHAPE_L:
+                    board->setCurrentBlock(new LBlock(x, y, color, state));
+                    break;
+                case SHAPE_J:
+                    board->setCurrentBlock(new JBlock(x, y, color, state));
+                    break;
+                case SHAPE_S:
+                    board->setCurrentBlock(new SBlock(x, y, color, state));
+                    break;
+                case SHAPE_Z:
+                    board->setCurrentBlock(new ZBlock(x, y, color, state));
+                    break;
+                case SHAPE_T:
+                    board->setCurrentBlock(new TBlock(x, y, color, state));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // ¶ÁÈ¡ÏÂÒ»¸ö·½¿éĞÅÏ¢
+        file >> shape;
+        if (shape != -1) {
+            file >> color >> x >> y >> state;
+            switch (shape) {
+                case SHAPE_O:
+                    board->setNextBlock(new OBlock(x, y, color, state));
+                    break;
+                case SHAPE_I:
+                    board->setNextBlock(new IBlock(x, y, color, state));
+                    break;
+                case SHAPE_L:
+                    board->setNextBlock(new LBlock(x, y, color, state));
+                    break;
+                case SHAPE_J:
+                    board->setNextBlock(new JBlock(x, y, color, state));
+                    break;
+                case SHAPE_S:
+                    board->setNextBlock(new SBlock(x, y, color, state));
+                    break;
+                case SHAPE_Z:
+                    board->setNextBlock(new ZBlock(x, y, color, state));
+                    break;
+                case SHAPE_T:
+                    board->setNextBlock(new TBlock(x, y, color, state));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // ¹Ø±ÕÎÄ¼ş
+        file.close();
+    }
+
+    void deleteSave(int index) {
+        // »ñÈ¡ËùÓĞ´æµµÎÄ¼ş
+        vector<string> saveFiles = getSaveFiles();
+
+        // É¾³ıÖ¸¶¨µÄ´æµµÎÄ¼ş
+        string filePath = "save/" + saveFiles[index];
+        remove(filePath.c_str());
+    }
+
+    vector<string> getSaveFiles() {
+        vector<string> saveFiles;
+        for (const auto &entry: filesystem::directory_iterator("save")) {
+            if (entry.path().extension() == ".txt") {
+                saveFiles.push_back(entry.path().filename().string());
+            }
+        }
+
+        vector<tuple<string, int, string> > saveInfos;
+        for (const string &saveFile: saveFiles) {
+            ifstream file("save/" + saveFile);
+            if (!file.is_open()) {
+                continue;
+            }
+
+            int year, month, day, hour, minute, second;
+            file >> year >> month >> day >> hour >> minute >> second;
+
+            string playerName;
+            int score;
+            file >> playerName;
+            file >> score;
+
+            stringstream ss;
+            ss << year << "-" << month << "-" << day << " " << hour << ":" << minute << ":" << second;
+            string saveTime = ss.str();
+
+            saveInfos.push_back(make_tuple(saveFile, score, saveTime));
+
+            file.close();
+        }
+
+        sort(saveInfos.begin(), saveInfos.end(),
+             [](const tuple<string, int, string> &a, const tuple<string, int, string> &b) {
+                 return get<2>(a) > get<2>(b);
+             });
+
+        vector<string> result;
+        for (const auto &saveInfo: saveInfos) {
+            result.push_back(get<0>(saveInfo));
+        }
+
+        return result;
+    }
+
+    void deleteGame() {
+        delete board;
+        delete player;
+    }
+
+    void run() {
+        // ³õÊ¼»¯ÓÎÏ·
+        initGame();
+        // ²¥·Å±³¾°ÒôÀÖ
+        mciSendString("open music/music1.mp3 alias bgm", nullptr, 0, nullptr);
+        mciSendString("play bgm repeat", nullptr, 0, nullptr);
+        while (true) {
+            updateMascotoLcation();
+            key = 0; // ÖØÖÃÓÃ»§ÊäÈë
+            switch (currentPage) {
+                case PAGE_MAIN_MENU:
+                    showMainMenu();
+                    handleKeyMainMenu();
+                    break;
+                case PAGE_CREATGAME_MENU:
+                    showCreatGameMenu();
+                    handlekeyCreatGameMenu();
+                    break;
+                case PAGE_GAME:
+                    showGame();
+                    break;
+                case PAGE_MODE_MENU:
+                    showModeMenu();
+                    handleKeyModeMenu();
+                    break;
+                case PAGE_PAUSE_MENU:
+                    showPauseMenu();
+                    handleKeyPauseMenu();
+                    break;
+                case PAGE_GAMEOVER:
+                    showGameOver();
+                    handleKeyGameOver();
+                    break;
+                case PAGE_SAVE_MENU:
+                    showSaveMenu();
+                    handleKeySaveMenu();
+                    break;
+                case PAGE_LEADERBOARD:
+                    showLeaderboard();
+                    handleKeyLeaderboard();
+                    break;
+                case PAGE_SETTINGS_MENU:
+                    showSettingMenu();
+                    handleKeySettingMenu();
+                    break;
+                case PAGE_RULES:
+                    showRules();
+                    handleKeyRules();
+                    break;
+                case PAGE_MUSIC_MENU:
+                    showMusicMenu();
+                    handleKeyMusicMenu();
+                    break;
+                case PAGE_SIZE_MENU:
+                    showSizeMenu();
+                    handleKeySizeMenu();
+                    break;
+                case PAGE_KEY_MENU:
+                    showKeyMenu();
+                    handleKeyKeyMenu();
+                    break;
+                case PAGE_EXIT:
+                    showExit();
+                default:
+                    break;
+            }
+        }
+    }
 };
 
 int main() {
-	Game game;
-	game.run();
-	return 0;
+    Game game;
+    game.run();
+    return 0;
 }
