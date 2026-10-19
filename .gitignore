@@ -1,0 +1,24 @@
+# 编译产物
+build/
+*.exe
+*.o
+*.obj
+
+# IDE 临时文件
+*.dev
+*.layout
+*.bookmarks
+*.debug
+*.res
+*_private.h
+*_private.rc
+.vs/
+.vscode/
+
+# 运行时数据
+save/
+leaderboard.txt
+
+# 系统文件
+.DS_Store
+Thumbs.db
